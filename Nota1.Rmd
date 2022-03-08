@@ -1,0 +1,69 @@
+---
+title: "Nota 1"
+author: "Santiago Casanova y Ernesto Barrios"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Como Instalar R 
+
+En esta primera nota vamos a explicar paso a paso cómo se debe instalar R en la máquina. Para la parte de instalación se cubre a fondo en las secciones **Windows** y **Mac** mientras que para **Linux** se presenta el camino basico sin entrar a detalles para las diferentes distribuciones.
+
+### Windows
+
+1. Primero visitar <http://www.r-project.org>.
+2. Hacer click en **download R**.
+3. En la lista de mirrors, buscar *https://cran.itam.mx/* y hacer click.
+4. Hacer click en *Download R for Windows* y guardar el archivo ejecutable.
+5. Correr el archivo .exe y seguir las instrucciones de instalación.
+
+
+### Mac
+
+1. Primero visitar <http://www.r-project.org>.
+2. Hacer click en **download R**.
+3. En la lista de mirrors, buscar *https://cran.itam.mx/* y hacer click.
+4. Hacer click en *Download R for macOS*.
+5. Hacer click en el link del archivo de la versión mas receinte de R.
+5. Correr el archivo .pkg y seguir las instrucciones de instalación.
+
+### Linux
+
+1. Primero visitar <http://www.r-project.org>.
+2. Hacer click en **download R**.
+3. En la lista de mirrors, buscar *https://cran.itam.mx/* y hacer click.
+4. Hacer click en *Download R for Linux*.
+5. Selecciona tu distribución de Linux y sigue las instrucciones para instalar desde la terminal.
+
+---
+
+## ¿Qué es R? Breve Historia y Resumen
+
+
+### Sus Inicios
+
+R fue implementado inicialmente por dos profesores de la universidad de Auckland, Robert Gentleman and Ross Ihaka,  en la década de los 90. El nombre viene de que Gentleman y Ross se basaron en el lenguaje de análisis estadístico llamado S que surgió en los 80. Al ser una "nueva versión" de S, decidieron llamarle **R**[^1].
+
+[^1]: <https://mran.microsoft.com/documents/what-is-r>
+
+### ¿Que es?
+
+R es un lenguaje intérprete. Esta afirmación se puede dividir en dos partes para analizar.
+
+1. R es un lenguaje:
+  
+  - Esto significa que el trabajo en R se tiene que hacer a través de una serie de comandos, funciones y scripts con una sintáxis específica.
+
+2. Es un lenguaje intérprete:
+ 
+  - Una vez que el usuario escribe sus comandos, funciones y scripts, R da una respuesta. Ya sea un resultado, la creación un objeto, una figura gráfica o bien un mensaje de error.
+  
+### El concepto Open Source
+
+R es completamente gratis para usar y es mantenido por un grupo de alrededor de 20 desarrolladrores. Además existe una gran comunidad que agrega y construye sobre el R básico (conocido como base R en inglés) a través del desarrollo de paquetes de ayuda para distintos usos. Estos paquetes pueden incluir desde funciones para leer archivos csv hasta métodos estadísticos complejos. Esta gran variedad de paquetes y bibliotecas se distribuye y regula a través de CRAN (*The Comprehensive R Archive Network*) y esta organización de recursos hace que R sea cada día mas poderoso como lenguaje y herramienta.
+
+
+
