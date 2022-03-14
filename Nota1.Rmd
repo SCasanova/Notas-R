@@ -51,7 +51,7 @@ R fue implementado inicialmente por dos profesores de la universidad de Auckland
 
 ### ¿Que es?
 
-R es un lenguaje intérprete. Esta afirmación se puede dividir en dos partes para analizar.
+R es un lenguaje intérprete.¿Qué significa esto? Esta afirmación se puede dividir en dos partes para analizar individualmente.
 
 1. R es un lenguaje:
   
@@ -65,5 +65,16 @@ R es un lenguaje intérprete. Esta afirmación se puede dividir en dos partes pa
 
 R es completamente gratis para usar y es mantenido por un grupo de alrededor de 20 desarrolladrores. Además existe una gran comunidad que agrega y construye sobre el R básico (conocido como base R en inglés) a través del desarrollo de paquetes de ayuda para distintos usos. Estos paquetes pueden incluir desde funciones para leer archivos csv hasta métodos estadísticos complejos. Esta gran variedad de paquetes y bibliotecas se distribuye y regula a través de CRAN (*The Comprehensive R Archive Network*) y esta organización de recursos hace que R sea cada día mas poderoso como lenguaje y herramienta.
 
+## Abrir R por primera vez
+
+Ahora que ya esta instalado R en la computadora, podemos hacer una prueba de uso. Localiza donde está guardado el programa y abrelo. Esto abrirá la consila de R dobnde se pueden iniciar a escribir comandos y recibir respuestas. En este ejemplo abrimos la consola y escribimos `print('Hello World')`. La consola nos regresa la imprsión "Hello World"
+
+![La consola de R con un primer comando](consola R.png){width=50%}
+
+```{r}
+print("Hello World")
+```
+
+Con esto ya estamos listos para empezar a usar R como una herramienta.
 
 
