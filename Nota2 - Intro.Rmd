@@ -1,5 +1,5 @@
 ---
-title: "Nota2 - Intro"
+title: "Nota2 - Introducción"
 author: "Santiago Casanova y Ernesto Barrios"
 output: pdf_document
 ---
@@ -19,9 +19,9 @@ R tiene un operador especial para asignar valores que es diferente a otros lengu
 Vamos a asignar algunos valores a una serie de variables:
 
 ```{r}
-numeros <- 1234
-numeros2 <- 1234.56
-integer1 <- 4L
+numero <- 3
+numero2 <- 1234.56
+entero <- 20L
 texto1 <- "ejemplo"
 texto2 <- 'tambien se puede con comillas simples'
 booleano <- T
@@ -29,8 +29,8 @@ booleano = TRUE
 booleano2 = F
 booleano2 = FALSE
 
-typeof(numeros)
-typeof(integer1)
+typeof(numero)
+typeof(entero)
 ```
 
 Como describimos, no se necesita especificar que tipo de dato queremos en cada variable ya que esto puede cambiar mas adelante. Hablando de tipos de datos, vamos a ver cuáles son las opciones que maneja R.
@@ -68,3 +68,84 @@ print(var)
 var <- NULL
 print(var)
 ```
+
+## Operadores
+
+La mayoría de los operadores son muy similares o iguales a otros lenguajes de programación por lo que no los analizaremos a fondo.
+
+```{r}
+#suma
+print(20 + 3)
+#resta
+print(20 - 3)
+#multiplicación
+print(20 * 3)
+#división
+print(20 / 3)
+#potencia (diferente a otros)
+print(20 ^ 3)
+#módulo
+print(20 %% 3)
+```
+
+## Operadores lógicos
+
+Los operadores lógicos son cruciales en la programación. En R, los básicos son prácticamente iguales a otros lenguajes pero además tiene una serie de prubas lógicas especiales.
+
+```{r}
+print(20 > 3) # >=
+print(20 < 3) # <=
+20 == 3
+20 != 3
+```
+
+Aqui también podemos notar que no es necesario escribir `print()` para que la consola responda. 
+
+Otra forma de obtener valores lógicos es revisando el tipo de dato que tenemos en una variable. La forma mas "burda" sería comparando el resultado de `typeof()` con el nombre que buscamos:
+
+```{r}
+typeof('asd') == 'character'
+```
+
+pero R nos presenta unas formas mas elegantes de revisar esto. La familila de funciones `is.*` ejecuta exactamente este mismo proceso en una sola función.
+
+```{r}
+palabra <- 'palabra'
+numeros <- 123.2
+
+is.character(palabra)
+is.character(numeros)
+
+is.numeric(palabra)
+is.numeric(numeros)
+
+```
+---
+
+## Uso de RStudio
+
+Hasta ahora hemos usado solamente la consola para interactuar con R pero hay maneras mas amigables de escribir comandos y recibir respuestas. 
+
+Una interfaz o IDE como RStudio nos permite escribir archivos ejecutables en los que podemos incluir todo un programa y editarlo sin tener que correr cada linea todas las veces. 
+
+Aquí incluimos una guía para instalar RStudio en diferentes sistemas operativos.
+
+### Windows
+
+1. Primero visitar <https://www.rstudio.com/products/rstudio/download/#download>.
+2. Hacer click en **Download** en la sección que dice *RStudio Desktop*.
+4. Hacer click en **Download RStuio for Windows** si aparece el botón.
+5. Si no aparece el botón, buscar *Windows 10/11* (o el que corresponda) en la lista **All Installers** y guardar el archivo ejecutable.
+5. Correr el archivo .exe y seguir las instrucciones de instalación.
+
+### Mac
+
+1. Primero visitar <https://www.rstudio.com/products/rstudio/download/#download>.
+2. Hacer click en **Download** en la sección que dice *RStudio Desktop*.
+4. Hacer click en **Download RStuio for Mac** si aparece el botón.
+5. Si no aparece el botón, buscar *macOS 10.15+* (o el que corresponda) en la lista **All Installers** y guardar el archivo ejecutable.
+5. Correr el archivo .exe y seguir las instrucciones de instalación.
+
+
+
+
