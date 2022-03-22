@@ -14,7 +14,7 @@ Ahora vamos a empezar a famililarizarnos con el ambiente de R y específicamente
 
 ### Declaración de variables
 
-R tiene un operador especial para asignar valores que es diferente a otros lenguajes de programación. Además, las son flexibles y pueden pasar de contener un tipo de dato a otro sin problema. Por los mismo no es necesario especificar el tipo de dato como se hace en C o en Java. El operador de asignación es `<-`. También se puede asignar variables con `=` pero, por convención, `=` se reserva para operaciones dentro de funciones o paréntesis.
+`R` tiene un operador especial para asignar valores, diferente a otros lenguajes de programación. Además, las variables son flexibles y pueden pasar de contener un tipo de dato a otro sin problema. Por los mismo no es necesario especificar el tipo de dato como se hace en C o en Java. El operador de asignación es `<-`. También se puede asignar variables con `=` pero, por convención, `=` se reserva para operaciones dentro de funciones o paréntesis.
 
 Vamos a asignar algunos valores a una serie de variables:
 
@@ -33,19 +33,19 @@ typeof(numero)
 typeof(entero)
 ```
 
-Como describimos, no se necesita especificar que tipo de dato queremos en cada variable ya que esto puede cambiar mas adelante. Hablando de tipos de datos, vamos a ver cuáles son las opciones que maneja R.
+Como describimos, no se necesita especificar que tipo de dato queremos en cada variable ya que esto puede cambiar mas adelante. Hablando de tipos de datos, vamos a ver cuáles son las opciones que maneja `R`.
 
 ### Tipos de Datos
 
-1. Numerico: No hay diferencia inicialmente entre integer y double o float.
-  * Si se quiere especificar solamente integer se puede escribir con una `L` al final. Ejemplo: `2L`
-2. Caractér: No hay diferencia entre string y caracter.
-3. Booleano (lógico): Como vimos en el ejemplo anterior, se escribe `TRUE` o `FALSE` todo con mayúsculas, o bién, solo `T` o `F`.
+1. Numérico: En principio no hay diferencia entre `integer` y `double` o como también es conocido, `float.`
+  * Si se quiere declarar específicamente como integer se puede escribir con una `L` al final del número. Ejemplo: `2L`. De lo contrario `R` lo guardará como `double`.
+2. Caracter: No hay diferencia entre `string` y `character`. En `R` todos los literales entre comillas son considerados modo y y tipo `character`.
+3. Booleano (lógico): Como vimos en el ejemplo anterior, se escribe `TRUE` o `FALSE` todo con mayúsculas, o bién, sólo `T` o `F`.
 
 
-### Ausencia de datos
+### Valore no-disponibles (Not Available)
 
-R tiene varias maneras de manejar la ausencia de datos dependiendo del tipo. Esto puede ser con un valor `NA` pero estos igualemnte pueden ser más especificos. `NA_real_`, `NA_integer_`, `NA_character_` y `NA_complex_` describen puntualmente el tipo de dato que falta pero en ultima instancia todos son tratados como `NA` por R. Por ejemplo:
+`R` tiene varias maneras de manejar los valores no disponibles dependiendo del tipo de dato. Cuando el valor no esta disponible se representa con `NA`. De la misma manera, los valores `NA` pueden ser más especificos. `NA_real_`, `NA_integer_`, `NA_character_` y `NA_complex_` describen puntualmente el tipo de dato que falta pero en ultima instancia todos son tratados como `NA` por `R`. Por ejemplo:
 
 ```{r}
 NA
@@ -90,24 +90,23 @@ print(20 %% 3)
 
 ## Operadores lógicos
 
-Los operadores lógicos son cruciales en la programación. En R, los básicos son prácticamente iguales a otros lenguajes pero además tiene una serie de prubas lógicas especiales.
+En `R`, los operadores lógicos básicos son prácticamente iguales a otros lenguajes de programaxión pero además, `R` reconoce una serie de pruebas lógicas especiales que veremos a fondo mas adelante.
 
 ```{r}
+#mayor que (o mayor/igual)
 print(20 > 3) # >=
+#menor que (o menor/igual)
 print(20 < 3) # <=
+#comparar (igualdad)
 20 == 3
+#comparar (desigualdad)
 20 != 3
 ```
 
-Aqui también podemos notar que no es necesario escribir `print()` para que la consola responda. 
 
-Otra forma de obtener valores lógicos es revisando el tipo de dato que tenemos en una variable. La forma mas "burda" sería comparando el resultado de `typeof()` con el nombre que buscamos:
+Hasta ahora hemos usado la funcion `print()` para obtener una respuesta de la consola. Sin embargo, como podemos ver en las dos últimas salidas de los ejemplos anteriores, `R` también regresa el resultado de una operación sin el uso específico de `print()` cuando está en una sesión. De ahora en adelante lo omitiremos en nuestros ejemplos.
 
-```{r}
-typeof('asd') == 'character'
-```
-
-pero R nos presenta unas formas mas elegantes de revisar esto. La familila de funciones `is.*` ejecuta exactamente este mismo proceso en una sola función.
+Otra forma de obtener valores lógicos es revisando el tipo de dato que tenemos en una variable. Para esto, `R` nos presenta una familila de funciones que revisan el tipo de dato y regresan un valor lógico. La familila de funciones `is.*` ejecuta exactamente este mismo proceso en una sola función.
 
 ```{r}
 palabra <- 'palabra'
@@ -120,13 +119,98 @@ is.numeric(palabra)
 is.numeric(numeros)
 
 ```
+
+## Estructuras de Datos
+
+### Vector Atómico 
+La estructura más basica para recopilar datos en `R` es un **Vector Atómico**. Estos se construyen con la sintáxis `c(a1, a2)` que concatena los valores deseados. Sin embargo, muchas otras funciones que veremos más adelante tienen un vector atómico de salida por default sin tener que especificarlo.
+
+Un vector atómico sin valores no es considerado una estructura de datos. `R` lo reconoce como un valor nulo `NULL` que analizamos en la sección anterior.
+
+```{r}
+c()
+```
+
+Ahora vemaos un par de ejemplos de vectores.
+
+```{r}
+c(1,2,3,4,5)
+
+primer_vector <- c(1,2,3, 'a', 'b', 'c', NA, NA_real_ ,TRUE)
+print(primer_vector)
+```
+
+El primer vector concatena exclusivamente datos numéricos, por lo que el vector entero será de tipo numerico. Sin embargo, el segundo vector incluye datos de tipo numérico, caracter y lógico. Por esto, `R` considera a todo el vector de tipo `character` y en la respuesta loo números de nuestro vector están encerrados en comillas.
+
+Es importante notar que los valores `NA` no se convierten a tipo `character` porque `NA` no es un tipo de datp, representa la ausencia de uno.
+
+### Lista
+
+Las listas agregan un grado de complejidad a la estructura "lineal" que son los vectores. Cada elemento de una lista puede ser una estructura de dato diferente por lo que siempre mantendrá los datos con su tipo original. Para construir una lista se utiliza la función `list()`
+
+Las listas pueden llegar a ser muy complejas (y por lo tanto muy útiles para recopilar datos diversos) pero en su forma más básica las podemos usar como una especie de vector.
+
+```{r}
+list(1,2,3,4,5)
+
+primer_lista <- list(1,2, 'a', 'b', NA,TRUE)
+print(primer_lista)
+```
+
+Inmediatamente podemos ver la diferencia entre las respuestas de la consola con vectores y con listas. Todos los valores que ingresamos mantienen su tipo original (los valores numéricos no tienen comillas alrededor), pero además cada elemento está separado en un renglón. 
+
+Como dijimos, las listas no solo pueden contener datos individuales, sino también estructuras. Si combinamos los conceptos de lista y vector, podemos crear una lista de vectores, cada uno de un tipo diferente.
+
+```{r}
+lista_compleja <- list(c(1,2,4, 12873812), c('a', 'b','c','g', 'zh', 'ya'), c(NA, NA_real_, NaN), 201)
+lista_compleja
+```
+Las listas permiten guardar datos en varios niveles y dimensiones.
+
+Esto presenta la pregunta ¿cómo accedemos a estos datos?
+
+## Acceso a datos con indices
+
+Los indices en `R` inician en `1` y se escriben dentro de `[]` para acceder al dato correspondiente.
+
+En nuestro ejemplo del prmer vector:
+
+```{r}
+primer_vector[2]
+```
+
+Esto nos indica que en la pocisión 2 de `primer_vector` tenemos un "2" de tipo `character` (notar comillas).
+
+Sin embargo, el proceso para las listas en un poco diferente. Si intentamos hacer lo mismo, obtendremos una lista que contiene al dato buscado, en lugar de el dato buscado pos si solo.
+
+```{r}
+lista_compleja[1]
+```
+
+Para obtener sólamente el primer elemento de la lista se usa un corchete doble `[[]]`
+
+```{r}
+lista_compleja[[1]]
+```
+
+Ahora vemos que nuestra salida es un vector, el elemento que teníamos guardado como primer elemento de `lista_compleja`. 
+Como nuestro reultado es un vector esto significa que va a responder exactamente como lo haría un vector. Si quisiéramos acceder al tercer elemento de este vector escribimos:
+
+```{r}
+lista_compleja[[1]][3]
+```
+
+Ya que la lista simplemente esta guardando al vector como un elemento, todas las propiedades de la estructura funcionan igual cuando la llamamos a través de indices. 
+
+## Data Frames
+
 ---
 
 ## Uso de RStudio
 
 Hasta ahora hemos usado solamente la consola para interactuar con R pero hay maneras mas amigables de escribir comandos y recibir respuestas. 
 
-Una interfaz o IDE como RStudio nos permite escribir archivos ejecutables en los que podemos incluir todo un programa y editarlo sin tener que correr cada linea todas las veces. 
+Una interfaz o IDE (Integrated Developement Enviroment) como RStudio nos permite escribir archivos ejecutables en los que podemos incluir todo un programa y editarlo sin tener que correr cada linea todas las veces. 
 
 Aquí incluimos una guía para instalar RStudio en diferentes sistemas operativos.
 
@@ -144,8 +228,7 @@ Aquí incluimos una guía para instalar RStudio en diferentes sistemas operativo
 2. Hacer click en **Download** en la sección que dice *RStudio Desktop*.
 4. Hacer click en **Download RStuio for Mac** si aparece el botón.
 5. Si no aparece el botón, buscar *macOS 10.15+* (o el que corresponda) en la lista **All Installers** y guardar el archivo ejecutable.
-5. Correr el archivo .exe y seguir las instrucciones de instalación.
-
+5. Correr el archivo .dmg y seguir las instrucciones de instalación.
 
 
 
