@@ -14,7 +14,7 @@ Ahora vamos a empezar a famililarizarnos con el ambiente de R y específicamente
 
 ### Declaración de variables
 
-`R` tiene un operador especial para asignar valores, diferente a otros lenguajes de programación. Además, las variables son flexibles y pueden pasar de contener un tipo de dato a otro sin problema. Por los mismo no es necesario especificar el tipo de dato como se hace en C o en Java. El operador de asignación es `<-`. También se puede asignar variables con `=` pero, por convención, `=` se reserva para operaciones dentro de funciones o paréntesis.
+`R` tiene un operador especial para asignar valores a variables, diferente a otros lenguajes de programación. Además, las variables son flexibles y pueden pasar de contener un tipo de dato a otro sin problema. Por los mismo no es necesario especificar el tipo de dato como se hace en C o en Java. El operador de asignación es `<-`. También se puede asignar variables con `=` pero, por convención, `=` se reserva para operaciones dentro de funciones o paréntesis.
 
 Vamos a asignar algunos valores a una serie de variables:
 
@@ -43,9 +43,12 @@ Como describimos, no se necesita especificar que tipo de dato queremos en cada v
 3. Booleano (lógico): Como vimos en el ejemplo anterior, se escribe `TRUE` o `FALSE` todo con mayúsculas, o bién, sólo `T` o `F`.
 
 
-### Valore no-disponibles (Not Available)
+### Valores no-disponibles (Not Available)
 
-`R` tiene varias maneras de manejar los valores no disponibles dependiendo del tipo de dato. Cuando el valor no esta disponible se representa con `NA`. De la misma manera, los valores `NA` pueden ser más especificos. `NA_real_`, `NA_integer_`, `NA_character_` y `NA_complex_` describen puntualmente el tipo de dato que falta pero en ultima instancia todos son tratados como `NA` por `R`. Por ejemplo:
+`R` tiene varias maneras de manejar los valores no disponibles dependiendo del tipo de dato.
+Un valor no disponible actúa como un marcador de posición en una estructura donde *debería* haber un dato. Esto lo veremos más a fondo cuando llegeuemos al tema de estructuras de datos.
+
+Cuando el valor no esta disponible se representa con `NA`. De la misma manera, los valores `NA` pueden ser más especificos. `NA_real_`, `NA_integer_`, `NA_character_` y `NA_complex_` describen puntualmente el tipo de dato que falta pero en ultima instancia todos son tratados como `NA` por `R`. Por ejemplo:
 
 ```{r}
 NA
@@ -123,9 +126,7 @@ is.numeric(numeros)
 ## Estructuras de Datos
 
 ### Vector Atómico 
-La estructura más basica para recopilar datos en `R` es un **Vector Atómico**. Estos se construyen con la sintáxis `c(a1, a2)` que concatena los valores deseados. Sin embargo, muchas otras funciones que veremos más adelante tienen un vector atómico de salida por default sin tener que especificarlo.
-
-Un vector atómico sin valores no es considerado una estructura de datos. `R` lo reconoce como un valor nulo `NULL` que analizamos en la sección anterior.
+La estructura más básica para recopilar datos en `R` es un **Vector Atómico**. Estos se construyen con la sintáxis `c(a1, a2)` que concatena los valores deseados. Un vector atómico sin valores no es considerado una estructura de datos. `R` lo reconoce como un valor nulo `NULL` que analizamos en la sección anterior.
 
 ```{r}
 c()
@@ -140,15 +141,25 @@ primer_vector <- c(1,2,3, 'a', 'b', 'c', NA, NA_real_ ,TRUE)
 print(primer_vector)
 ```
 
-El primer vector concatena exclusivamente datos numéricos, por lo que el vector entero será de tipo numerico. Sin embargo, el segundo vector incluye datos de tipo numérico, caracter y lógico. Por esto, `R` considera a todo el vector de tipo `character` y en la respuesta loo números de nuestro vector están encerrados en comillas.
+El primer vector concatena exclusivamente datos numéricos, por lo que el vector entero será de tipo numerico. Sin embargo, el segundo vector incluye datos de tipo numérico, caracter y lógico. Por esto, `R` considera a todo el vector de tipo `character` y en la respuesta los números de nuestro vector están encerrados en comillas.
 
-Es importante notar que los valores `NA` no se convierten a tipo `character` porque `NA` no es un tipo de datp, representa la ausencia de uno.
+Es importante notar que los `NA` no se convierten a tipo `character` porque `NA` no es un tipo de dato, representa la ausencia de uno.
+
+Nótese que el vector atómico es la estructura *default* de `R`. Por lo tanto si no se especifica cómo guardar una colección de datos, `R` la guardará en un vector
+
+```{r}
+#La sintáxis de dos números separados por dos puntos ":" denota un rango
+vec <- 1:5
+vec
+```
+
+Vemos que la consola nos regresa un vector. 
 
 ### Lista
 
 Las listas agregan un grado de complejidad a la estructura "lineal" que son los vectores. Cada elemento de una lista puede ser una estructura de dato diferente por lo que siempre mantendrá los datos con su tipo original. Para construir una lista se utiliza la función `list()`
 
-Las listas pueden llegar a ser muy complejas (y por lo tanto muy útiles para recopilar datos diversos) pero en su forma más básica las podemos usar como una especie de vector.
+Las listas pueden llegar a ser muy complejas (y por lo tanto muy útiles para recopilar datos diversos) pero en su forma más básica las podemos usar como una especie de vector que respeta los tipo de dato.
 
 ```{r}
 list(1,2,3,4,5)
@@ -176,6 +187,7 @@ Los indices en `R` inician en `1` y se escriben dentro de `[]` para acceder al d
 En nuestro ejemplo del prmer vector:
 
 ```{r}
+#La segunda pocisión del vector
 primer_vector[2]
 ```
 
@@ -203,6 +215,63 @@ lista_compleja[[1]][3]
 Ya que la lista simplemente esta guardando al vector como un elemento, todas las propiedades de la estructura funcionan igual cuando la llamamos a través de indices. 
 
 ## Data Frames
+
+Hasta ahora hemos visto estructuras de datos simples, en el caso de los vectores, o compuestas sin relación, en el caso de las listas. Los data frames nos permiten organizar datos que se relacionan entre si. Podemos pensar que los data frames se comportan como lo haría una hoja de excel, con filas y columnas que contienen datos de cualquier tipo.
+
+Para crear un data fram usamos la función `data.frame()` y le propocionamos vectores atómicos como columnas.
+
+```{r}
+#Creamos un arreglo con dos vectores. Cada uno corresponde a una columna de nuestro arreglo
+arreglo <- data.frame(nombre = c('Ernesto', 'Santiago'),
+                      clave = c(21,18),
+                      booleano = c(T,F))
+
+arreglo
+```
+
+Nótese que, como las columnas están generadas por vectores atómicos, cada una solo puede tener un tipo de dato. 
+
+Para acceder a los valores individuales usamos la misma sintaxis que usamos para los vectores pero ahora con dos pocisiones separadas por una coma. La primera corresponde a la **fila** que queremos y la segunda a la **columna**.
+
+```{r}
+#Primera columna y primera fila
+arreglo[1,1]
+```
+
+Es el dato correspondiente a la primera fila y primera columna. Si solo proporcionamos un índice sin usar la coma, `R` regresa la columna que corresponda al indice.
+
+```{r}
+#La primera columna
+arreglo[1]
+```
+
+## Explorar las estructuras (??)
+
+length
+dim
+summary
+
+
+## Operaciones de vectores
+
+Cuando tenemos una serie de datos numéricos guardada en un vector le podemos aplicar varias operaciones como suma, promedio (media) o mediana, entre otras. Por ejemplo:
+
+```{r}
+vector_numerico <- c(123,546.7,333,32,1)
+
+#sumar todas las entradas
+sum(vector_numerico)
+
+#obtener el promedio
+mean(vector_numerico)
+
+#obtener la mediana
+median(vector_numerico)
+
+#redondear los valores
+round(vector_numerico)
+
+```
 
 ---
 
