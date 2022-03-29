@@ -350,6 +350,38 @@ max(vector_numerico)
 
 Es claro que como las columnas de un arreglo son vectores, también se puede aplicar este tipo de funciones para hacer operaciones con columnas numéricas de arreglos.
 
+## Otras Funciones 
+
+Para cerrar esta sección vamos a presentar varias funciones útiles para el trabajo con `R`.
+
+La función `rep()` repite un argumento las veces que le indiquemos.
+La función `seq()` crea una secuencia de números.
+La función `sqrt()` regresa la raiz cuadrada del número ingresado.
+
+Veámoslas en acción.
+
+```{r}
+#Repetir el número 5, 8 veces
+rep(5,8)
+
+#Repetir la palabra "Hola" 3 veces
+rep('Hola', 3)
+
+#Una secuencia del 1 al 7
+seq(7)
+
+#Una secuencia del 4 al 8
+seq(4,8)
+
+#Una secuancia de los pares de 10 a 18
+seq(10,18,2) #El tercer argumento nos dice cada cuanto se hace la secuencia
+
+#La raiz cuadarda de 2
+sqrt(2)
+
+```
+
+
 ---
 
 ## Uso de RStudio
