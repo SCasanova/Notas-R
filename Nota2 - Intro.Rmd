@@ -180,9 +180,9 @@ Las listas permiten guardar datos en varios niveles y dimensiones.
 
 Esto presenta la pregunta ¿cómo accedemos a estos datos?
 
-## Acceso a datos con indices
+## Acceso a datos a través índices
 
-Los indices en `R` inician en `1` y se escriben dentro de `[]` para acceder al dato correspondiente.
+Los índices en `R` inician en `1` y se escriben dentro de `[]` para acceder al dato correspondiente.
 
 En nuestro ejemplo del prmer vector:
 
@@ -212,7 +212,7 @@ Como nuestro reultado es un vector esto significa que va a responder exactamente
 lista_compleja[[1]][3]
 ```
 
-Ya que la lista simplemente esta guardando al vector como un elemento, todas las propiedades de la estructura funcionan igual cuando la llamamos a través de indices. 
+Ya que la lista simplemente esta guardando al vector como un elemento, todas las propiedades de la estructura funcionan igual cuando la llamamos a través de índices. 
 
 ## Data Frames
 
@@ -221,7 +221,7 @@ Hasta ahora hemos visto estructuras de datos simples, en el caso de los vectores
 Para crear un data fram usamos la función `data.frame()` y le propocionamos vectores atómicos como columnas.
 
 ```{r}
-#Creamos un arreglo con dos vectores. Cada uno corresponde a una columna de nuestro arreglo
+#Creamos un arreglo con tres vectores. Cada uno corresponde a una columna de nuestro arreglo
 arreglo <- data.frame(nombre = c('Ernesto', 'Santiago'),
                       clave = c(21,18),
                       booleano = c(T,F))
@@ -231,6 +231,20 @@ arreglo
 
 Nótese que, como las columnas están generadas por vectores atómicos, cada una solo puede tener un tipo de dato. 
 
+Asi como las columnas tienen nombre, tambñien le podemos asignar un nombre o identificador a las filas utilizando `row.names` como un argumento.
+
+```{r}
+#Ahora también incluimos el argumento row.names. Este no va a ser una columna nueva
+arreglo <- data.frame(nombre = c('Ernesto', 'Santiago'),
+                      clave = c(21,18),
+                      booleano = c(T,F),
+                      row.names = c(21,18))
+
+arreglo
+```
+
+Esto nos da un identificador en el arreglo que no es parte de los datos pero que es útil para organizar la información.
+
 Para acceder a los valores individuales usamos la misma sintaxis que usamos para los vectores pero ahora con dos pocisiones separadas por una coma. La primera corresponde a la **fila** que queremos y la segunda a la **columna**.
 
 ```{r}
@@ -238,18 +252,73 @@ Para acceder a los valores individuales usamos la misma sintaxis que usamos para
 arreglo[1,1]
 ```
 
-Es el dato correspondiente a la primera fila y primera columna. Si solo proporcionamos un índice sin usar la coma, `R` regresa la columna que corresponda al indice.
+Es el dato correspondiente a la primera fila y primera columna. 
+
+Si solo proporcionamos un índice sin usar la coma, `R` regresa la columna que corresponda al índice.
 
 ```{r}
 #La primera columna
 arreglo[1]
 ```
 
-## Explorar las estructuras (??)
+## Explorar las estructuras
 
-length
-dim
-summary
+Podeos también explorar las estructuras de datos para obtener información básica que nos ayuda a comprender los datos y el tipo de estructura con el que estamos trabjando. 
+
+En el caso de los arreglos, si queremos saber el número de renglones y columnas usamos `dim()`. Esta función regresa un vector con dos entradas numéricas que nos indican el numero de renglones y columnas. Alternativamente podemos usar `ncol()` o `nrow()` para obtener estos datos individualmente.
+
+```{r}
+#Ambos datos
+dim(arreglo)
+#Solo columnas
+ncol(arreglo)
+#Solo renglones
+nrow(arreglo)
+#Obtenemos renglones usando los índices del vector dim
+dim(arreglo)[1]
+```
+
+En el caso de los vectores, como solo estamos trabajando con una diemsnión (ya sea vector renglón o vector columna), no se usa `dim()`. Para obtener el *largo* de los vectores se usa `length()`.
+Si intentamos usar `dim()` con un vector, la consola nos regresará un resultado nulo.
+
+```{r}
+#No regresa nada útil
+dim(primer_vector)
+#Solo tiene una entrada con el largo del vector
+length(primer_vector)
+```
+
+Además de las dimensiones de nuestras estructuras, también podemos explorar otras propiedades. La función `summary()` funciona tanto para vectores como para arreglos y nos regresa datos básicos que nos ayudan a entender cómo esta construido el arreglo o vector.
+
+Por otro lado, podemos ver una sección pequeña del *data frame* o arreglo, ya sea la parte superior o inferior, con las funciones `head()` y `tail()`. Estas funciones toman dos argumentos: el primero debe ser un arreglo y el segundo (opcional) indica cuántas filas debe regresar la función. Si no se proporciona el segundo argumento las funciones regresan 6 filas por default.
+
+`R` tiene una serie de **arreglos ejemplo** cargados en la memoria en todo momento. Para nuestro ejemplo de exploración de datos vamos a utilizar el **data frame** `mtcars`.
+
+```{r}
+mtcars
+```
+
+A primera vista es demasiada información para procesar rápidamente. Vamos a usar las técnicas de exploración de esta sección para conocer lo mas posible acerca de `mtcars`.
+
+
+```{r}
+#El tamaño
+dim(mtcars)
+#Los nombres de las columnas
+colnames(mtcars)
+#Los nombres de los renglones
+rownames(mtcars)
+#Primeras filas
+head(mtcars)
+#Primeras 2 filas
+head(mtcars, 2)
+#Últimas 2 filas
+tail(mtcars, 2)
+#Resumen
+summary(mtcars)
+```
+
+En este ultimo vemos que nos da el resumen de cada vector (columna) de nuestro arreglo ejemplo. Esto es el mínimo, el máximo, la media, la mediana y los cuantiles. Si hubiera algún valor `NA`, `summary()` nos daría el número total como parte del reporte.
 
 
 ## Operaciones de vectores
@@ -271,7 +340,15 @@ median(vector_numerico)
 #redondear los valores
 round(vector_numerico)
 
+#sacar el mínimo
+min(vector_numerico)
+
+#sacar el máximo
+max(vector_numerico)
+
 ```
+
+Es claro que como las columnas de un arreglo son vectores, también se puede aplicar este tipo de funciones para hacer operaciones con columnas numéricas de arreglos.
 
 ---
 
@@ -287,7 +364,7 @@ Aquí incluimos una guía para instalar RStudio en diferentes sistemas operativo
 
 1. Primero visitar <https://www.rstudio.com/products/rstudio/download/#download>.
 2. Hacer click en **Download** en la sección que dice *RStudio Desktop*.
-4. Hacer click en **Download RStuio for Windows** si aparece el botón.
+4. Hacer click en **Download RStudio for Windows** si aparece el botón.
 5. Si no aparece el botón, buscar *Windows 10/11* (o el que corresponda) en la lista **All Installers** y guardar el archivo ejecutable.
 5. Correr el archivo .exe y seguir las instrucciones de instalación.
 
@@ -295,7 +372,7 @@ Aquí incluimos una guía para instalar RStudio en diferentes sistemas operativo
 
 1. Primero visitar <https://www.rstudio.com/products/rstudio/download/#download>.
 2. Hacer click en **Download** en la sección que dice *RStudio Desktop*.
-4. Hacer click en **Download RStuio for Mac** si aparece el botón.
+4. Hacer click en **Download RStudio for Mac** si aparece el botón.
 5. Si no aparece el botón, buscar *macOS 10.15+* (o el que corresponda) en la lista **All Installers** y guardar el archivo ejecutable.
 5. Correr el archivo .dmg y seguir las instrucciones de instalación.
 

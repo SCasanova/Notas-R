@@ -1,0 +1,58 @@
+---
+title: "Nota 3 - Funciones y Manipulación de Datos"
+author: "Santiago Casanova y Ernesto Barrios"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Funciones
+
+En esta sección vamos a aprender a definir y usar funciones para facilitar la organización y el uso de código en el futuro.
+
+### Definición de funciones
+
+Las funciones se definen como cualquier objeto en `R`. El nombre del objeto seguido del operador de asignación `<-` pero en este caso después viene la palabra calve `function()`.
+
+Veámoslo en acción para entender mejor este concepto.
+
+
+```{r}
+divide_dos_num <- function(num1, num2){ #El código a correr por la función se escribe entre llaves
+  num1/num2
+}
+```
+
+Nótese que, similar a cómo no es necesario utilizar `print()` para que la consola responda, la respuesta de la función no requiere ni `print()` ni `return`.
+
+Si llamamos a nuestra función:
+
+```{r}
+divide_dos_num(10,5)
+```
+
+podemos verificar que funciona como esperamos.
+
+### Ejecución Controlada
+
+Es posible que queramos controlar o limitar cuándo corre nestra función y cuándo no. En nuestro ejemplo no queremos que el segundo número sea cero porque obtendremos `NaN` por respuesta. Utilizaremos la función `if()` para controlar la ejecución.
+
+```{r}
+divide_dos_num <- function(num1, num2){ 
+  if(num2 == 0){
+    resp <- "No es posible dividir entre cero"
+  } else{
+    resp <- num1/num2
+  }
+  resp
+}
+
+divide_dos_num(10,5)
+divide_dos_num(10,0)
+```
+
+
+
+
