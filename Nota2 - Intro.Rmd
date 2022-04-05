@@ -381,7 +381,6 @@ sqrt(2)
 
 ```
 
-
 ---
 
 ## Uso de RStudio

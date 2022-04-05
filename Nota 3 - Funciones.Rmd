@@ -35,8 +35,10 @@ divide_dos_num(10,5)
 
 podemos verificar que funciona como esperamos.
 
-### Ejecución Controlada
+## Ejecución Controlada
 
+### if, if else, else e ifelse
+ 
 Es posible que queramos controlar o limitar cuándo corre nestra función y cuándo no. En nuestro ejemplo no queremos que el segundo número sea cero porque obtendremos `NaN` por respuesta. Utilizaremos la función `if()` para controlar la ejecución.
 
 ```{r}
@@ -51,6 +53,121 @@ divide_dos_num <- function(num1, num2){
 
 divide_dos_num(10,5)
 divide_dos_num(10,0)
+```
+
+Si queremos evaluar más de dos conidiones utilizamos `if` en combinación con `else if` y `else` para manejar los casos que no cumplan ninguna de las dos.
+Es importante notar que el orden de las condiciones si se toma en cuenta. Se evaluará la primera que se cumpla 
+
+Veamos un ejemplo:
+
+```{r}
+divide_dos_num <- function(num1, num2){ 
+  if(num2 == 0){
+    resp <- "No es posible dividir entre cero"
+  } else if(num1 == 0){
+    resp <- 0
+  } else{
+    resp <- num1/num2
+  }
+  resp
+}
+
+divide_dos_num(10,5)
+divide_dos_num(0,0)
+divide_dos_num(0,10)
+```
+
+Aunque nuestra segunda llamada a la función cumplía ambas condiciones, solamente obtenemos el resultado de que se cumpla la primera condicion.
+
+Si queremos evaluar más de una condición en la misma expresión, podemos utilizar los operadores `&` y `|` que simbolizan `AND` y `OR` respectivamente.
+
+Aplicamos esto a nuestro ejemplo anterior.
+
+```{r}
+divide_dos_num <- function(num1, num2){ 
+  if(num2 == 0){
+    resp <- "No es posible dividir entre cero"
+  } else if(num1 == 0 | num2 == 1){ #operador OR |
+    resp <- 'Es trivial'
+  } else{
+    resp <- num1/num2
+  }
+  resp
+}
+
+divide_dos_num(0,5)
+divide_dos_num(0,0)
+divide_dos_num(20,1)
+```
+
+
+Otra forma de obtener un valor apartir de una expresión lógica en `R` es con la función `ifelse`. Esta condensa las funcionalidades de `if` y `else` en una función llamable con 3 parámetros. El primer parámetro es la expresión a evaluar, el segundo el resultado en caso de que la exresión sea `TRUE` y el tercero el resultado en caso de que la expresión sea `FALSE`. 
+
+Esta función es especialmente útil para darle valor a una variable u obtener una respuesta rápida a partir de una condición.
+
+```{r}
+pos_neg <- function(numero){
+  ifelse(numero > 0, 'positivo', 'negativo')
+        #expresion    #resultado T #resultado F
+}
+
+pos_neg(-2)
+pos_neg(3)
+
+```
+
+Como se podrán haber dado cuenta, en este ejemplo no estamos evaluando todas las condiciones posibles. Si corremos
+```{r}
+pos_neg(0)
+```
+nos regresa como resultado que cero es negativo ya que no cumple la condición `x>0`.
+Para estos casos podemos anidar nuestros `ifelse` para que manejen mas de una condición.
+
+```{r}
+pos_neg_cero <- function(numero){
+  ifelse(numero == 0, 'cero', ifelse(numero > 0, 'positivo', 'negativo'))
+}
+```
+
+En este caso evaluamos primero si el numero es igual a cero. Si no lo es, regresamos al `ifelse` que habñiamos planteado en la función anterior.
+
+```{r}
+pos_neg_cero(-1)
+pos_neg_cero(1231)
+pos_neg_cero(0)
+```
+
+### for y while
+
+En esta sección no analizaremos muy a fondo el funcionamiento o propósito de los ciclos `for` y `while` sino que veremos su sintáxis específica en `R`.
+
+el `for` se escribe de la siguiente manera:
+```{r}
+for(i in c(1,2,3)){# el rango debe ser un vector por el cual pueda correr la i
+  print(i)
+} 
+```
+
+
+Recordemos las maneras de escribir rangos que analizamos en la nota anterior. Ya sea con la sintáxis `inicio:fin`, con el uso de una función generadora como `seq()` o bien proporcionando un vector explícito como el rango buscado.
+
+```{r}
+#secuencia del 1 al 5
+for(j in seq(5)){
+  print(j)
+}
+
+#de dos en dos del 3 al 10
+
+for(k in seq(3,10, 2)){
+  print(k)
+}
+
+#rangos específicos (no necesitan ser numéricos)
+
+for(l in c('opcion1', 'opcion2', 'opcion3')){
+  print(l)
+}
 ```
 
 
