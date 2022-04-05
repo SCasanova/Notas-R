@@ -170,6 +170,20 @@ for(l in c('opcion1', 'opcion2', 'opcion3')){
 }
 ```
 
+Por otro lado el while es muy sencillo e intuituvo. Se escribe la función `while()`y como parámetro se proporciona una expresión que tenga como salida `TRUE` o `FALSE`.
 
+Nuevamente, el código a correr se escribe entre llaves (`{}`)
+
+Mientras la condición tenga salida `TRUE` se corre el código dentro de las llaves del while.
+
+```{r}
+i = 5
+while(i>0){
+  print(i)
+  i = i-1
+}
+```
+
+Nótese que en muchos casos es necesario inicializar la conidión antes de llamar a la función while.
 
 
