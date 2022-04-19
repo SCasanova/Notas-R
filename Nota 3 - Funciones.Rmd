@@ -186,4 +186,63 @@ while(i>0){
 
 Nótese que en muchos casos es necesario inicializar la conidión antes de llamar a la función while.
 
+## Manipulación de datos
+
+En la nota anterior vimos una introducción a los arreglos o `data.frames`, comparadores lógicos y operaciones con vectores. Todos estos conceptos ahora nos serán útiles para aprender a manipular los datos que tenemos almacenados.
+
+Recordemos cómo se ve el arreglo `mtcars`
+
+```{r}
+head(mtcars)
+```
+
+Una forma de obtener columnas individuales es utilizando el operador `$` seguido del nombre de la columna. Si queremos que la consola nos regrese la columna `mpg` escribimos:
+
+```{r}
+mtcars$mpg
+```
+
+Y el resultado es el vector que forma la columna `mpg`. Al ser un vector le podemos aplicar todas las tecnicas y operaciones que ta conocemos para los vectores. Por ejemplo, si quisiéramos obtener el dato en la pocisión dos escribimos:
+
+```{r}
+mtcars$mpg[2]
+```
+
+Ahora vamos a crear nuestra propia columna. Para hacer esto, usamos la notación del operador `$` pero ahora con un nombre de columna que no exista. Después usamos el operador de asignación `<-` para asignarle algo a dicha columna.
+
+```{r}
+mtcars$like <- rep(0, nrow(mtcars))
+head(mtcars)
+```
+
+En este caso utilizamos la función `rep()` para repetir el cero n veces donde n es el número de filas que tiene el arreglo `mtcars`. Sin embargo, `R` es un lenguaje con muchas comodidades y podemos asignar solo un cero y automáticamente lo recicla a lo largo de la columna.
+
+```{r}
+mtcars$like <- 0
+head(mtcars)
+```
+
+Ahora nos gustaría cambiar algunos valores de esta columna. Para hacer esto seguimos exáctamente el mismo proceso que usamos para modificar vectores. Seleccionamos el elemento que queremos y le asignamos un valor nuevo.
+
+```{r}
+mtcars$like[18] <- 1
+mtcars$like[12] <- 1
+mtcars$like[2] <- 1
+mtcars$like[28] <- 1
+mtcars$like[20] <- 1
+mtcars$like[21] <- 1
+
+mtcars$like
+```
+
+De la misma forma, al ser un vector, podemos usar todas las técnicas y operaciones que conocemos que fincionan para vectores. Por ejemplo:
+
+```{r}
+sum(mtcars$like)
+max(mtcars$cyl)
+```
+
+La primera nos regresa la suma de la columna `like`. Es facil ver que nos regresará 6 ya que en la sección anterior le asignamos 6 `1` en diferentes pocisiones. La segunda nos regresa el valor máximo de la columna `cyl`. 
+
+
 
