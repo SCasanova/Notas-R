@@ -186,6 +186,100 @@ while(i>0){
 
 Nótese que en muchos casos es necesario inicializar la conidión antes de llamar a la función while.
 
+## Pseudo-aleatorios
+
+`R` tiene muchas maneras de generar números aleatorios (o más puntualmente, pseudo-aleatorios). La forma más básica es con la fucnión `runif()`, la cual selecciona n números aleatorios en un rango dado, todos con la misma probabilidad (es decir, uniforme) de ser seleccionados.
+
+Por default, el rango es 0 a 1 pero este puede ser modificado.
+
+La sintaxis es: `runif(cantidad, mínimo, máximo)`
+
+```{r}
+# 5 números del 0 al 1
+runif(5)
+
+# 5 números del 3 al 8
+runif(5, 3, 8)
+```
+
+Si quisieramos convertirla a una función discreta podemos aplicar la función `round()` alrededor de `runif()`
+```{r}
+round(runif(5,3,8))
+```
+
+Nótese que aunque en ambos casos usamos los mismos argumentos en la función, obtubimos resultados diferentes (aparte de que los segundos están redondeados). Si quisiéramos obtener los mismos números cada vez que corremos el experimento podemos recurrir a la función `set.seed()`.
+
+En su uso más básico, la funcion `set.seed()` recibe un parámetro numérico llamado semilla que hace que las fucniones sean repetibles. No importa cuándo o donde se corra la funcioón pseudo-aleatoria, si tienen la misma semilla antes, obtendremos el mismo resultado.
+
+```{r}
+set.seed(13)
+round(runif(5,100,112))
+```
+
+Y si lo volvemos a correr:
+
+```{r}
+set.seed(13)
+round(runif(5,100,112))
+```
+
+La consola nos regresa exactamente lo mismo.
+
+Otra función muy común para simulación pseudo-aleatoria es `rbinom()`. Esta recibe 3 parámetros: el numero de ensayos, el numero de objetos y la probabilidad de éxito.
+
+Para ilustrar esto, imaginémos que se tiene una moneda honesta, vamos a realizar 8 lanzamientos y queremos analizar el número de aguilas que obtenemos. El resultado de esta simulación con `rbinom()` se ve así:
+
+```{r}
+# rbinom(número de lanzamientos, número de monedas, probabilidad de éxito (obtener aguila))
+set.seed(205)
+rbinom(8, 1, 0.5)
+```
+
+Vemos que en este caso obtubimos 5 aguilas en nuestro experimento.
+
+Otra simulación, ahora más compleja, es la siguiente. Un equipo de futból, con 11 jugadores, sabe que la probabilid de que uno de ellos se lesione cada partido es de 5%. Podemos simular el número de lesiones en el calendario de 10 partidos con la función `rbinom()`
+
+```{r}
+# rbinom(número de partidos, número de jugadores, probabilidad de lesión)
+set.seed(46)
+rbinom(10, 11, 0.05)
+```
+
+En este caso vemos que se lesionó 1 en el tercer partido, 1 en el sexto, etc.
+Si queremos obtener el total de lesionados podemos utilizar operaciones de vectores.
+
+```{r}
+set.seed(46)
+sum(rbinom(10, 11, 0.05))
+```
+
+Por último analizaremos la función `rnorm()`. Esta toma 3 argumentos: el número de experimentos, la media y la desviación estandar para generar números aleatorios con distribución normal (o también conocida como gaussiana). Veamos un ejemplo.
+
+```{r}
+# 5 números con media cero y desviación estandar 1 
+rnorm(5)
+```
+
+Si revisamos la media y desviación estandar de este experimento podemos confirmar nuestros argumentos iniciales (con cierto margen de error por el tamaño de la muestra).
+
+```{r}
+vector_normal_estandar <- rnorm(300)
+
+# media cercana a cero
+mean(vector_normal_estandar)
+
+#desviación estandar cercana a 1
+sd(vector_normal_estandar)
+```
+
+Podemos hacer lo mismo utilizando otros parámetros. Por ejemplo obtengamos 8 números con media 5 y desviación estandar 3.
+
+```{r}
+rnorm(8,5,3)
+```
+
+Como se podrán haber dado cuenta, r + el nombre de alguna distribución nos permite obtener muestras aleatorias de esa distribución con diferentes parámetros. Ejemplos más avanzados incluyen distribución exponencial `rexp()`, distribución Poisson `rpois()`, geométrica `rgeom()`, etc.
+
 ## Manipulación de datos
 
 En la nota anterior vimos una introducción a los arreglos o `data.frames`, comparadores lógicos y operaciones con vectores. Todos estos conceptos ahora nos serán útiles para aprender a manipular los datos que tenemos almacenados.
@@ -243,6 +337,70 @@ max(mtcars$cyl)
 ```
 
 La primera nos regresa la suma de la columna `like`. Es facil ver que nos regresará 6 ya que en la sección anterior le asignamos 6 `1` en diferentes pocisiones. La segunda nos regresa el valor máximo de la columna `cyl`. 
+
+Ahora vamos a analizar cómo podemos utilizar pruebas lógicas para obtener valores de un arreglo. Si corremos la expresión:
+
+```{r}
+mtcars$cyl >=8
+```
+vemos que nos regresa un vector booleano con valores `TRUE` o `FALSE` dependiendo si los elementos del vector escogido `mtcars$cyl` cumplen la condición. Ahora loq eu podemos hacer es pasar este vector lógico como argumento dentro de los corchetes del arreglo. Esto nos dará las filas que tengan `TRUE` en nuestra prueba lógica.
+
+```{r}
+mtcars[mtcars$cyl >=8, ]
+```
+
+Ponemos la prueba lógica seguida de una coma porque queremos obtener los renglones que cumplan esta condición, como lo vimos en la sección de arreglos de la nota anterior. 
+
+Si quisieramos que nos regrese estas filas pero sólamente una selección de columnas, podemos usar un vector con los índices (o los nombres) de las columnas deseadas después de la coma.
+
+En estos próximos ejemplos agregaremos otra condición para limitar los reultados. Ahora buscamos todas las filas que cumplan que `cyl` sea mayor o igual a 8 y que `disp` sea mayor a 400.
+
+```{r}
+#Un vector de indices columnas
+mtcars[mtcars$cyl >=8 & mtcars$disp > 400, c(1,4,5)]
+
+#Un rango de indices columnas
+mtcars[mtcars$cyl >=8 & mtcars$disp > 400, 2:5]
+
+#Un vecotr con nombres de columnas
+mtcars[mtcars$cyl >=8 & mtcars$disp > 400, c('mpg','cyl', 'disp')] 
+```
+Si sólo bucamos una sola columna, también se puede utilizar el operador `$` después de los corchetes para indicar que queremos que nos regrese esa columna. Nótese que aún es necesario escribir la coma.
+
+```{r}
+mtcars[mtcars$cyl >=8 & mtcars$disp > 400,]$mpg
+```
+De igual manera podemos notar que cuando seleccionamos más de una columna la consola nos regresa un arreglo, mientras que cuando sólo seleccionamos una columna (ya sea con índice, nombre o el operador `$`) la consola regresa un vector.
+
+Esto es crucial ya que nos permite aplicar todas las operaciones y manipulaciones de vectores que ya conocemos. 
+
+
+Esta sintáxis no solo sirve para obtener los datos a través de la consola. Naturalmente también podemos asignar estos resultados a una nueva variable. Vamos a crear un *subset* de `mtcars` que sólo incluya las filas con `cyl` igual a 4.
+
+```{r}
+cars_4_cyl <- mtcars[mtcars$cyl == 4, ]
+head(cars_4_cyl)
+```
+
+Ahora usemos lo que sabemos sobre crear columnas y números pseudo-aleatorios para crear una columna `tank` que indique el tamaño del tanque de gasolina de los coches.
+
+```{r}
+set.seed(13)
+cars_4_cyl$tank <- round(rnorm(nrow(cars_4_cyl), 40, 10))
+cars_4_cyl
+```
+
+Estamos creando la columna `tank` con números enteros (gracias a `round()`) con media 40 y desviación estandar 10 (con la función `rnorm()`). Para el cantidad de números aleatorios a generar utilizamos `nrow()` para que la función nos regrese los suficientes para todas las filas de nuestro arreglo.
+
+Veamosel resumen nuestra nueva columna.
+```{r}
+summary(cars_4_cyl$tank)
+```
+
+
+
+
+
 
 
 

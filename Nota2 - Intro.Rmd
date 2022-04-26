@@ -217,7 +217,14 @@ primer_vector
 
 Vemos que el valor en la segunda pocision cambió a `4`.
 
-El proceso para las listas en un poco diferente. Si intentamos hacer lo mismo, obtendremos una lista de un solo elemento que contiene al dato buscado, en lugar de el dato buscado pos si solo.
+En el caso de los vectores que tienen nombres también podemos usar el nombre para acceder a los valores. 
+
+```{r}
+vec_con_nombres['elemento1']
+```
+
+
+El proceso para acceder a elemento de listas en un poco diferente. Si intentamos hacer lo mismo, obtendremos otra lista de un solo elemento que contiene al dato buscado, en lugar de el dato buscado por si solo.
 
 ```{r}
 lista_compleja[1]
@@ -243,6 +250,14 @@ lista_compleja[['vector2']]
 ```
 
 Ya que la lista simplemente esta guardando al vector como un elemento, todas las propiedades de la estructura funcionan igual cuando la llamamos a través de índices. 
+
+Los elementos de las listas con nombre también se pueden acceder a través del operador de acceso `$`. Al usarlo, ya no utilizamos el doble corchete ni las comillas sino que usamos el operador y el nombre directamente.
+
+```{r}
+lista_compleja$vector2
+```
+
+
 
 ## Data Frames
 
@@ -291,12 +306,25 @@ Si solo proporcionamos un índice sin usar la coma, `R` regresa la columna que c
 arreglo[1]
 ```
 
+Sin embargo la forma propia de acceder este valor es con un espacio en blanco en la sección de las filas y el indice de la columna despues de la coma.
+```{r}
+#La primera columna
+arreglo[,1]
+```
+
 Por otro lado, si queremos solo la primera fila, escribimos la coma pero dejamos en blanco lo que viene desupués.
 
 ```{r}
 arreglo[1, ]
 ```
 
+De manera similar a las listas con nombre, podemos usar el operador de acceso `$` para seleccionar columnas por nombre.
+
+```{r}
+arreglo$clave
+```
+
+El resultado es de nuevo un vector.
 
 ## Explorar las estructuras
 
@@ -382,6 +410,9 @@ min(vector_numerico)
 
 #sacar el máximo
 max(vector_numerico)
+
+#obtener la desviación estandar
+sd(vector_numerico)
 
 ```
 
