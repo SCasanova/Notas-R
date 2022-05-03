@@ -257,6 +257,11 @@ Los elementos de las listas con nombre también se pueden acceder a través del 
 lista_compleja$vector2
 ```
 
+Por úlitmo veamos la función `unlist()`, la cual convierte una lista a un vector.
+
+```{r}
+unlist(primer_lista)
+```
 
 
 ## Data Frames

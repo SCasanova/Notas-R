@@ -84,7 +84,7 @@ Si queremos evaluar más de una condición en la misma expresión, podemos utili
 Aplicamos esto a nuestro ejemplo anterior.
 
 ```{r}
-divide_dos_num <- function(num1, num2){ 
+divide_dos_num <- function(num1, num2 = 2){ 
   if(num2 == 0){
     resp <- "No es posible dividir entre cero"
   } else if(num1 == 0 | num2 == 1){ #operador OR |
@@ -99,6 +99,13 @@ divide_dos_num(0,5)
 divide_dos_num(0,0)
 divide_dos_num(20,1)
 ```
+
+Nótese también que podemos definir valores por *default* para los parámetros. En este caso declaramos que `num2` es igual a 1 por default y por lo tanto, si el usuario no proporciona un valor para ese parámetro, la función puede correr con un valor predeterminado.
+
+```{r}
+divide_dos_num(10) #Será dividido entre dos porque no proporcionamos otro parámetro
+```
+
 
 
 Otra forma de obtener un valor apartir de una expresión lógica en `R` es con la función `ifelse`. Esta condensa las funcionalidades de `if` y `else` en una función llamable con 3 parámetros. El primer parámetro es la expresión a evaluar, el segundo el resultado en caso de que la exresión sea `TRUE` y el tercero el resultado en caso de que la expresión sea `FALSE`. 

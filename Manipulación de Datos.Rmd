@@ -161,7 +161,7 @@ Podemos ver que nuestra nueva columna de marca y modelo está ya incluida.
 
 Veremos ahora una serie de funciones para manipular texto (o vectores de texto). Estas son especialmente útiles para la limpieza de columnas de datos.
 
-La primera que analizaremos es `grepl()`. Esta sirve para buscar un patrón de caracteres en un vector. Usemos la columna de marca y modelo como vector ejemplo. 
+La primera que analizaremos es `grepl()`. Esta sirve para buscar un patrón de caracteres en un vector. Usemos la columna de marca y modelo como vector ejemplo. La sintáxis es `gsub(patrón, vector)` 
 
 ```{r}
 grepl('Fiat', cars_4_cyl$marca_modelo)
@@ -174,6 +174,118 @@ cars_4_cyl[grepl('Fiat', cars_4_cyl$marca_modelo), ]
 ```
 
 Ahora vemos que la función nos es útil para buscar datos específicos dentro de una cadena en un arreglo, no solo el dato completo de la columna (Esto se lograría con arreglo[dato == buscado]).
+
+También es necesario en muchas ocasiones remplazar un patrón por otro en un vector de cadenas. Para esto usaos la función `gsub()`. Funciona de manera similar a `grepl()` pero ahora también recibe el parámetro `remplazo`. Entonces la sintáxis queda `gsub(patrón, remplazo, vector)`.
+
+```{r}
+gsub('Fiat', 'Mazda',  cars_4_cyl$marca_modelo)
+```
+
+
+En este caso la salida es un vector de cadenas en lugar de uno booleano. Este vector es la versión modificada de nuestro vector original.
+
+En muchos casos es necesario separar una cadena (más adelante lo veremos para columnas) en dos o mas secciones. Para eso podemos usar la función `strsplit()`. Como lo indica su nombre, separa cadenas. Se usa la siguiente sintáxis: `strsplit(cadena, separador)`, donde el separador es un caracter que indique una separación.
+
+```{r}
+strsplit("palabra1 palabra2", " ")
+```
+
+En este caso queremos separar nuestra cadena en el espacio por lo que escribimos un espacio como parámetro de separador. Nótese que en este caso la salida no es un vector sino una lista. Esto es porque el resultado de una sola separación es inherentemente un vector. Si quisiéramos aplicar la función a todo un vector, necesitamos que la función regrese una "colección de vectores". En este caso es una lista de vectores.
+
+```{r}
+strsplit(c("palabra1 palabra2", "palabra3 palabra4"), " ")
+```
+
+Este ejemplo ilustra por qué es necesario que el resultado sea una lista. Sin embargo, esto presenta otros problemas. Supongamos que tenemos una columna que incluye nombres y apellidos y la queremos separar en una columna sólo de nombres y otra solo de apellidos. ¿Cómo logramos esto?
+
+Probemos varias opciones para obtener solo el apellido del siguiente vector.
+
+```{r}
+nombre_apellidos <- c("Ana Perez", "Ernesto Barrios", "Santiago Casanova")
+
+# strsplit original
+strsplit(nombre_apellidos, " ")
+
+# tomamos la segunda pocision
+strsplit(nombre_apellidos, " ")[2]
+
+# tomamos el segundo elemento de la lista
+strsplit(nombre_apellidos, " ")[[2]]
+
+```
+Ninguna de estas opciones cumple lo que queremos. No hay manera de obtener solo el segundo resultado sólo con indices por lo que tendremos que explorar mas opciones. Cómo primer instinto podemos pensar en usar un `for()` para lograr esto.
+
+```{r}
+# Declaramos un vector vacío
+apellidos <- c()
+
+for(i in 1:length(nombre_apellidos)){
+  apellidos[i] <- strsplit(nombre_apellidos[i], ' ')[[1]][2]
+}
+```
+
+En este ejemplo estamos tomando el elemento **i** del vector (desde 1 hasta el largo del vector), separandolo por el espacio y, una vez separado, tomando el primer elemento de la lista resultante (`[[1]]`). Ya que tenemos acceso al vector tomamos el segundo elemento. Ese elemento es asignado a la pocisión **i** de nuestro vector apellidos.
+
+Mientras que sí es una solución viable no es muy eficiente y se presta a errores. En esta sección vamos a aprender a vectorizar operaciones.
+
+## Vectorización de Funciones
+
+Para resolver el problema anterior priemro tenemos que definir una función que haga lo que queremos. Ya analizamos el problema en el paso anterior entonces lo podemos aplicar de manera casi idéntica. Con la única excepción de que ahora lo pensamos como si la función recibiera un solo elemento a la vez.
+
+```{r}
+extrae_apellido <- function(nombre_completo){
+  strsplit(nombre_completo, " ")[[1]][2]
+}
+```
+
+Verificamos que funcione como queremos:
+
+```{r}
+extrae_apellido("Enrique Juarez")
+```
+
+Ahora utilizaremos la familia de funciones `apply()` para aplicar esta función a todos los elementos de un vector. Primero analizaremos `sapply()` y `lapply()`. La sintáxis para estas es: `*apply(vector, función)`.
+
+```{r}
+sapply(nombre_apellidos, extrae_apellido) #La función se escribe sin parentesis
+
+lapply(nombre_apellidos, extrae_apellido)
+```
+
+La función `sapply()` nos regresa un vector con los resultados que además tiene nombres y estos son los elementos del vector original. Por otro lado, `lapply()` regresa una lista donde cada resultado está en su propio vector. 
+
+Declaremos ahora una función más compleja y por lo tanto más util que la que tenemos actualmente. Esta nos va a permitir indicarle qué caracter usar para el separador y también qué parte del nombre completo queremos extraer. Nótese que vamos a establecer valores predeterminados para estos parámetros.
+
+```{r}
+extrae_de_nombre <- function(nombre_completo, separador = " ", posicion = 2){
+  strsplit(nombre_completo, separador)[[1]][posicion]
+}
+
+# Usando los valores default
+extrae_de_nombre("Ana López")
+# Si los especificamos
+extrae_de_nombre("Ana López", " ", 2)
+# Extraer el nombre
+extrae_de_nombre("Ana López", posicion =2)
+# Con diferente separador
+extrae_de_nombre("Ana-López", separador = "-")
+
+```
+
+Para usar parámetros con las funciones `lapply()` o `sapply()` se usa la siguiente sintáxis: `*apply(vector, función, parametro = valor)`.
+
+```{r}
+sapply(nombre_apellidos, extrae_de_nombre, posicion = 1)
+```
+
+
+Sin embargo estas funciones solo reciben un parámetro por función. En este caso funciona porque nuestra función tiene valores *default* para los parametros que no especificamos pero si queremos declarar todos es necesario utilizar la función `mapply()`. Funciona igual que las demás funciones de la familia apply pero en este caso recibe parámetros infinitos y por lo tanto cambia la sintáxis: `mapply(función, arg1, arg2, ... , vector)
+
+```{r}
+nombres2 <- c("Ernesto-J-Barrios", "Santiago-J-Casanova", "Ana-P-Lopez")
+
+mapply(extrae_de_nombre, separador = "-", posicion = 3, nombres2)
+```
 
 
 
