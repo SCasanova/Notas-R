@@ -1,0 +1,180 @@
+---
+title: "Manipulación de Datos"
+author: "Santiago Casanova y Ernesto Barrios"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Manipulación de datos
+
+En notas anteriores vimos una introducción a los arreglos o `data.frames`, comparadores lógicos y operaciones con vectores. Todos estos conceptos ahora nos serán útiles para aprender a manipular los datos que tenemos almacenados.
+
+Recordemos cómo se ve el arreglo `mtcars`
+
+```{r}
+head(mtcars)
+```
+
+Una forma de obtener columnas individuales es utilizando el operador `$` seguido del nombre de la columna. Si queremos que la consola nos regrese la columna `mpg` escribimos:
+
+```{r}
+mtcars$mpg
+```
+
+Y el resultado es el vector que forma la columna `mpg`. Al ser un vector le podemos aplicar todas las tecnicas y operaciones que ta conocemos para los vectores. Por ejemplo, si quisiéramos obtener el dato en la pocisión dos escribimos:
+
+```{r}
+mtcars$mpg[2]
+```
+
+Ahora vamos a crear nuestra propia columna. Para hacer esto, usamos la notación del operador `$` pero ahora con un nombre de columna que no exista. Después usamos el operador de asignación `<-` para asignarle algo a dicha columna.
+
+```{r}
+mtcars$like <- rep(0, nrow(mtcars))
+head(mtcars)
+```
+
+En este caso utilizamos la función `rep()` para repetir el cero n veces donde n es el número de filas que tiene el arreglo `mtcars`. Sin embargo, `R` es un lenguaje con muchas comodidades y podemos asignar solo un cero y automáticamente lo recicla a lo largo de la columna.
+
+```{r}
+mtcars$like <- 0
+head(mtcars)
+```
+
+Ahora nos gustaría cambiar algunos valores de esta columna. Para hacer esto seguimos exáctamente el mismo proceso que usamos para modificar vectores. Seleccionamos el elemento que queremos y le asignamos un valor nuevo.
+
+```{r}
+mtcars$like[18] <- 1
+mtcars$like[12] <- 1
+mtcars$like[2] <- 1
+mtcars$like[28] <- 1
+mtcars$like[20] <- 1
+mtcars$like[21] <- 1
+
+mtcars$like
+```
+
+De la misma forma, al ser un vector, podemos usar todas las técnicas y operaciones que conocemos que fincionan para vectores. Por ejemplo:
+
+```{r}
+sum(mtcars$like)
+max(mtcars$cyl)
+```
+
+La primera nos regresa la suma de la columna `like`. Es facil ver que nos regresará 6 ya que en la sección anterior le asignamos 6 `1` en diferentes pocisiones. La segunda nos regresa el valor máximo de la columna `cyl`. 
+
+Ahora vamos a analizar cómo podemos utilizar pruebas lógicas para obtener valores de un arreglo. Si corremos la expresión:
+
+```{r}
+mtcars$cyl >=8
+```
+vemos que nos regresa un vector booleano con valores `TRUE` o `FALSE` dependiendo si los elementos del vector escogido `mtcars$cyl` cumplen la condición. Ahora loq eu podemos hacer es pasar este vector lógico como argumento dentro de los corchetes del arreglo. Esto nos dará las filas que tengan `TRUE` en nuestra prueba lógica.
+
+```{r}
+mtcars[mtcars$cyl >=8, ]
+```
+
+Ponemos la prueba lógica seguida de una coma porque queremos obtener los renglones que cumplan esta condición, como lo vimos en la sección de arreglos de la nota anterior. 
+
+Si quisieramos que nos regrese estas filas pero sólamente una selección de columnas, podemos usar un vector con los índices (o los nombres) de las columnas deseadas después de la coma.
+
+En estos próximos ejemplos agregaremos otra condición para limitar los reultados. Ahora buscamos todas las filas que cumplan que `cyl` sea mayor o igual a 8 y que `disp` sea mayor a 400.
+
+```{r}
+#Un vector de indices columnas
+mtcars[mtcars$cyl >=8 & mtcars$disp > 400, c(1,4,5)]
+
+#Un rango de indices columnas
+mtcars[mtcars$cyl >=8 & mtcars$disp > 400, 2:5]
+
+#Un vecotr con nombres de columnas
+mtcars[mtcars$cyl >=8 & mtcars$disp > 400, c('mpg','cyl', 'disp')] 
+```
+Si sólo bucamos una sola columna, también se puede utilizar el operador `$` después de los corchetes para indicar que queremos que nos regrese esa columna. Nótese que aún es necesario escribir la coma.
+
+```{r}
+mtcars[mtcars$cyl >=8 & mtcars$disp > 400,]$mpg
+```
+De igual manera podemos notar que cuando seleccionamos más de una columna la consola nos regresa un arreglo, mientras que cuando sólo seleccionamos una columna (ya sea con índice, nombre o el operador `$`) la consola regresa un vector.
+
+Esto es crucial ya que nos permite aplicar todas las operaciones y manipulaciones de vectores que ya conocemos. 
+
+
+Esta sintáxis no solo sirve para obtener los datos a través de la consola. Naturalmente también podemos asignar estos resultados a una nueva variable. Vamos a crear un *subset* de `mtcars` que sólo incluya las filas con `cyl` igual a 4.
+
+```{r}
+cars_4_cyl <- mtcars[mtcars$cyl == 4, ]
+head(cars_4_cyl)
+```
+
+Nótese que si no le asignaramos nuestro *subset* a la variable `cars_4_cyl`, el arreglo original no se vería modificado. 
+
+Ahora usemos lo que sabemos sobre crear columnas y números pseudo-aleatorios para crear una columna `tank` que indique el tamaño del tanque de gasolina de los coches.
+
+```{r}
+set.seed(13)
+cars_4_cyl$tank <- round(rnorm(nrow(cars_4_cyl), 18, 5))
+cars_4_cyl
+```
+
+Estamos creando la columna `tank` con números enteros (gracias a `round()`) con media 20 y desviación estandar 8 (con la función `rnorm()`). Para el cantidad de números aleatorios a generar utilizamos `nrow()` para que la función nos regrese los suficientes para todas las filas de nuestro arreglo.
+
+Veamosel resumen nuestra nueva columna.
+```{r}
+summary(cars_4_cyl$tank)
+```
+
+Las columnas de un arreglo son vectores del mismo tamaño por lo que podemos hacer operaciones entrada-a-entrada entre ellos. Si queremos calcular la distancia total de cada coche nos absta con multiplicar la columna `mpg` (*miles per gallon*) por nuestra nueva columna `tank` en galones.
+
+```{r}
+cars_4_cyl$distancia_maxima <- cars_4_cyl$mpg*cars_4_cyl$tank
+summary(cars_4_cyl$distancia_maxima)
+```
+
+Ahora filtremos nuestro arreglo con varias condiciones. Queremos todas las columnas de las filas que cumplan que `mpg` sea mayor a 30 y la distancia máxima sea menor a 400.
+
+```{r}
+cars_4_cyl[cars_4_cyl$mpg > 30 & cars_4_cyl$distancia_maxima < 400,]
+```
+
+Esto nos regresa un arreglo de 11 columnas sin embargo tiene cero filas. Ninguna cumple las condiciones que le pedimos.
+
+A lo largo de esta sección hemos visto las marcas y modelos de los coches a un lado del arreglo, sin embargo no son parte de una columna. Si queremos asignarlas a una columna propia podemos hacer:
+
+```{r}
+cars_4_cyl$marca_modelo <- rownames(cars_4_cyl)
+head(cars_4_cyl)
+```
+
+Otra forma de ver un arreglo competo es con la función `View()`. Esta en vez de regresar algo a la consola, abre el arreglo en otra pestaña donde lo podemos filtrar y buscar datos individuales a manera de interfaz gráfica.
+
+```{r}
+View(cars_4_cyl)
+```
+
+Podemos ver que nuestra nueva columna de marca y modelo está ya incluida.
+
+### Maipulación de texto
+
+Veremos ahora una serie de funciones para manipular texto (o vectores de texto). Estas son especialmente útiles para la limpieza de columnas de datos.
+
+La primera que analizaremos es `grepl()`. Esta sirve para buscar un patrón de caracteres en un vector. Usemos la columna de marca y modelo como vector ejemplo. 
+
+```{r}
+grepl('Fiat', cars_4_cyl$marca_modelo)
+```
+
+Obtenemos un vector booleano que por sí solo no nos es muy útil. Sin embargo, este se puede escribir dentro de los corchetes de indexación de un arreglo para obtener un resultado más útil.
+
+```{r}
+cars_4_cyl[grepl('Fiat', cars_4_cyl$marca_modelo), ]
+```
+
+Ahora vemos que la función nos es útil para buscar datos específicos dentro de una cadena en un arreglo, no solo el dato completo de la columna (Esto se lograría con arreglo[dato == buscado]).
+
+
+
+
