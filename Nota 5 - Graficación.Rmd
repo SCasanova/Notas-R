@@ -1,7 +1,6 @@
 ---
 title: "Nota 5 - Graficación"
 author: "Santiago Casanova y Ernesto Barrios"
-date: "5/12/2022"
 output: pdf_document
 ---
 
