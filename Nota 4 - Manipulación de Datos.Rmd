@@ -287,6 +287,5 @@ nombres2 <- c("Ernesto-J-Barrios", "Santiago-J-Casanova", "Ana-P-Lopez")
 mapply(extrae_de_nombre, separador = "-", posicion = 3, nombres2)
 ```
 
-
-
+Esto concluye la sección de vectorización de funciones.
 

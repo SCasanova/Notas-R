@@ -397,6 +397,7 @@ Cuando tenemos una serie de datos numéricos guardada en un vector le podemos ap
 
 ```{r}
 vector_numerico <- c(123,546.7,333,32,1)
+vector_numerico2 <- c(2,2,4,4,5,2)
 
 #sumar todas las entradas
 sum(vector_numerico)
@@ -419,7 +420,20 @@ max(vector_numerico)
 #obtener la desviación estandar
 sd(vector_numerico)
 
+#multiplicar dos vectores (del mismo tamaño)
+vector_numerico*vector_numerico2
+
+#contar ocurrencias de un valor
+table(vector_numerico2) #util para graficar
+
+#Usando vectores como conjuntos
+union(vector_numerico, vector_numerico2) #Union
+intersect(vector_numerico, vector_numerico2) #Interseccion
+setdiff(vector_numerico, vector_numerico2) #Diferencia (elementos del primero que no estan en el segundo)
+setequal(vector_numerico, vector_numerico2) #Si son iguales o no (sin importar el orden)
+
 ```
+La función `table()` recibe un vector y cuenta las repeticiones de cada valor. Regresa un vector con nombres donde el nombre indica el valor que se está contando y el valor del vector las veces que se repite. En este caso tenemos que el `2` se repite 3 veces, le `4` 2 veces y el `5` una vez.
 
 Es claro que como las columnas de un arreglo son vectores, también se puede aplicar este tipo de funciones para hacer operaciones con columnas numéricas de arreglos.
 
@@ -453,6 +467,7 @@ seq(10,18,2) #El tercer argumento nos dice cada cuanto se hace la secuencia
 sqrt(2)
 
 ```
+
 
 ---
 
