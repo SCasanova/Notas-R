@@ -36,7 +36,7 @@ Ahora veamos que sucede si le damos un vector de factores a la función `plot()`
 plot(as.factor(mtcars$cyl))
 ```
 
-La salida es un gráfico de barras. Tenemos una barra por cada nivel del factor y la altura representa el número de repeticiones.
+La salida es un gráfico de barras. Tenemos una barra por cada nivel del factor y la altura representa el número de repeticiones. Nótese que este es diferente a el histograma que veremos más tarde.
 
 Ahora evamos que sucede si le proporiconamos un arreglo a la función `plot()`. En principio esto no suena posible pero veremos que nos dá un resultado muy interesante. Primero vamos a restrngir nuestro arreglo a solo 3 columnas.
 
@@ -92,11 +92,47 @@ Todas las funciones de graficación tienen una serie de parámetros que podemos 
 Probémoslos con el grñafico anterior.
 
 ```{r}
-boxplot(mtcars$mpg~mtcars$cyl, col = "navy", main = "Resumen de MPG separado por CYL", xlab = "# de cilindros", ylab = "Millas por galón")
+boxplot(mtcars$mpg~mtcars$cyl, col = "navy", main = "Resumen de MPG separado por CYL", xlab = "Número de cilindros", ylab = "Millas por galón")
 ```
 
 Otro ejemplo completo:
 ```{r}
 barplot(table(mtcars$cyl), col = 'firebrick', xlab = 'Cilindros', main = 'Número de cilindros')
 ```
+
+
+## Histograma
+
+El histograma es visualmente similar al gráfico de barras pero cumple otro propósito. El histograma toma una serie de datos (continuos o discretos) y los agrupa en "cubetas" o particiones regulares. El eje y representa el número de observaciones que caen en cada cubeta y por lo tanto esta visaulización es útil para representar densidades.
+
+
+Usamos la función `hist()` para obtener un histograma.
+
+```{r}
+hist(mtcars$disp)
+```
+
+Si sólo le damos nuestro vector como parámetro, `R` ya nos da un título general y para cada eje dscribiendo el propósito del histograma. Además de los parámetros estéticos (xlab, col, etc.) tambiñen podemos pedirle un número diferente de cubetas con `breaks`.
+
+```{r}
+hist(mtcars$disp, breaks = 5)
+hist(mtcars$disp, breaks = 20, col = "red")
+```
+
+## Pie
+
+Por útlimo analizaremos cómo crear un gráfico de pie, aunque por lo general no es recomendado utilizarlo en la práctica. Esto es tan sencillo como usar la función `pie()` y proporcionarle un vector de datos discretos agrupados.
+
+
+```{r}
+pie(table(mtcars$cyl))
+```
+
+Una característica especial de los gráficos de pie en `R` es la propiedad `density` que, en conjunto con la propiedad `angle`, cambia de colores a lineas cada sección del pie. Además, es modificable el radio,
+
+```{r}
+pie(table(mtcars$cyl), density = 10, angle = c(0,45,90), radius = 0.5)
+```
+
+Por último nótese que `R` construye el gráfico en el sentido contrario a las manecillas del reloj, empezando a 90º. Esto también se puede cambiar con la propiedad `clockwise`.
 
