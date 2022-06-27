@@ -10,9 +10,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Graficación Básica
 
-En esta sección aprenderemos conceptos básicos de visualización de información en la paquetería base de R. La función base para graficar es `plot()`. Esta es una fucnión sobrecargada, lo que significa que reconoce el tipo de información que le proporcionamos y nos imprime el resultado correspondiente.
+En esta sección aprenderemos conceptos básicos de visualización de información en la paquetería base de R. La función base para graficar es `plot()`. Esta es una función sobrecargada, lo que significa que reconoce el tipo de información que le proporcionamos y nos imprime el resultado correspondiente.
 
-Por ejemplo, siguiendo los ejemplos de la nota anterior (Manipulación de Datos), usemos el dataset `mtcars` para graficar. 
+Por ejemplo, siguiendo los ejemplos de la nota anterior (Manipulación de Datos), usemos el dataset `mtcars` para graficar.
 
 ```{r}
 head(mtcars, 4)
@@ -30,15 +30,15 @@ Si le proporcionamos dos vectores nos graficará uno contra el otro en el eje x 
 plot(mtcars$wt, mtcars$disp)
 ```
 
-Ahora veamos que sucede si le damos un vector de factores a la función `plot()`. Para esto tenemos que convertir la columna `cyl` a datos categóricos en lugar de numéricos.
+Ahora veamos qué sucede si le damos un vector de factores a la función `plot()`. Para esto tenemos que convertir la columna `cyl` a datos categóricos en lugar de numéricos.
 
 ```{r}
 plot(as.factor(mtcars$cyl))
 ```
 
-La salida es un gráfico de barras. Tenemos una barra por cada nivel del factor y la altura representa el número de repeticiones. Nótese que este es diferente a el histograma que veremos más tarde.
+La salida es un gráfico de barras. Tenemos una barra por cada nivel del factor y la altura representa el número de repeticiones. Nótese que este es diferente al histograma que veremos más tarde.
 
-Ahora evamos que sucede si le proporiconamos un arreglo a la función `plot()`. En principio esto no suena posible pero veremos que nos dá un resultado muy interesante. Primero vamos a restrngir nuestro arreglo a solo 3 columnas.
+Ahora veamos qué sucede si le proporcionamos un arreglo a la función `plot()`. En principio esto no suena posible pero veremos que nos da un resultado muy interesante. Primero vamos a restringir nuestro arreglo a solo 3 columnas.
 
 ```{r}
 arreglo_gráfica <- mtcars[,c("mpg", "wt", "disp")]
@@ -48,13 +48,13 @@ plot(arreglo_gráfica)
 
 La salida es una matriz de dispersión que compara todas las variables contra todas. Veamos que en términos matriciales es "simétrica".
 
-Ahora analizemos otras combinaciones. Si le proporcionamos dos factores:
+Ahora analizaremos otras combinaciones. Si le proporcionamos dos factores:
 
 ```{r}
 plot(as.factor(mtcars$cyl), as.factor(mtcars$carb))
 ```
 
-Nos da un grafico de mosaico que combina ambos factores.
+Nos da un gráfico de mosaico que combina ambos factores.
 
 Para un factor y una variable numérica:
 
@@ -64,9 +64,9 @@ plot(as.factor(mtcars$cyl), mtcars$mpg)
 
 Nos da un gráfico de caja y brazos para la variable numérica, separada por cada nivel del factor.
 
-## Graficos específicos
+## Gráficos específicos
 
-Estos resultados también se pueden obtener con las fucniones específicas `boxplot()` y `barplot()` para dejar en claro cuál es el resultado buscado. Por lo mismo no es necesario convertir a factores los datos antes de graficar en estos casos.
+Estos resultados también se pueden obtener con las funciones específicas `boxplot()` y `barplot()` para dejar en claro cuál es el resultado buscado. Por lo mismo no es necesario convertir a factores los datos antes de graficar en estos casos.
 
 Las siguientes funciones nos regresarán exactamente los mismos resultados que obtuvimos con la función plot.
 
@@ -77,9 +77,14 @@ barplot(table(mtcars$cyl))
 En este caso usamos la función table para que nos diera un recuento de cada valor (con nombres)
 
 ```{r}
+table(mtcars$cyl)
+```
+
+
+```{r}
 boxplot(mtcars$mpg~mtcars$cyl)
 ```
-Para este resultado indicamos que queremos que una variable sea agrupada por otra con el símbolo `~`. Veamos también que esta version incluye nombres para los ejes.
+Para este resultado indicamos que queremos que una variable sea agrupada por otra con el símbolo `~`. Veamos también que esta versión incluye nombres para los ejes.
 
 ## Personalización de gráficos
 
@@ -89,7 +94,7 @@ Todas las funciones de graficación tienen una serie de parámetros que podemos 
 `main`: el título de la figura
 `xlab`/`ylab`: el título de cada eje
 
-Probémoslos con el grñafico anterior.
+Probémoslos con el gráfico anterior.
 
 ```{r}
 boxplot(mtcars$mpg~mtcars$cyl, col = "navy", main = "Resumen de MPG separado por CYL", xlab = "Número de cilindros", ylab = "Millas por galón")
@@ -103,7 +108,7 @@ barplot(table(mtcars$cyl), col = 'firebrick', xlab = 'Cilindros', main = 'Númer
 
 ## Histograma
 
-El histograma es visualmente similar al gráfico de barras pero cumple otro propósito. El histograma toma una serie de datos (continuos o discretos) y los agrupa en "cubetas" o particiones regulares. El eje y representa el número de observaciones que caen en cada cubeta y por lo tanto esta visaulización es útil para representar densidades.
+El histograma es visualmente similar al gráfico de barras pero cumple otro propósito. El histograma toma una serie de datos (continuos o discretos) y los agrupa en "cubetas" o particiones regulares. El eje “y” representa el número de observaciones que caen en cada cubeta y por lo tanto esta visualización es útil para representar densidades.
 
 
 Usamos la función `hist()` para obtener un histograma.
@@ -112,7 +117,7 @@ Usamos la función `hist()` para obtener un histograma.
 hist(mtcars$disp)
 ```
 
-Si sólo le damos nuestro vector como parámetro, `R` ya nos da un título general y para cada eje dscribiendo el propósito del histograma. Además de los parámetros estéticos (xlab, col, etc.) tambiñen podemos pedirle un número diferente de cubetas con `breaks`.
+Si sólo le damos nuestro vector como parámetro, `R` ya nos da un título general y para cada eje describiendo el propósito del histograma. Además de los parámetros estéticos (xlab, col, etc.) también podemos pedirle un número diferente de cubetas con `breaks`.
 
 ```{r}
 hist(mtcars$disp, breaks = 5)
@@ -121,18 +126,21 @@ hist(mtcars$disp, breaks = 20, col = "red")
 
 ## Pie
 
-Por útlimo analizaremos cómo crear un gráfico de pie, aunque por lo general no es recomendado utilizarlo en la práctica. Esto es tan sencillo como usar la función `pie()` y proporcionarle un vector de datos discretos agrupados.
+Por último analizaremos cómo crear un gráfico de pie, aunque por lo general no es recomendado utilizarlo en la práctica. Esto es tan sencillo como usar la función `pie()` y proporcionarle un vector de datos discretos agrupados.
 
 
 ```{r}
 pie(table(mtcars$cyl))
 ```
 
-Una característica especial de los gráficos de pie en `R` es la propiedad `density` que, en conjunto con la propiedad `angle`, cambia de colores a lineas cada sección del pie. Además, es modificable el radio,
+Una característica especial de los gráficos de pie en `R` es la propiedad `density` que, en conjunto con la propiedad `angle`, cambia de colores a líneas cada sección del pie. Además, es modificable el radio,
 
 ```{r}
 pie(table(mtcars$cyl), density = 10, angle = c(0,45,90), radius = 0.5)
 ```
 
 Por último nótese que `R` construye el gráfico en el sentido contrario a las manecillas del reloj, empezando a 90º. Esto también se puede cambiar con la propiedad `clockwise`.
+
+
+
 

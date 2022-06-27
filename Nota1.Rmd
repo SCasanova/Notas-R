@@ -8,9 +8,9 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Como Instalar R 
+## Cómo Instalar R
 
-En esta primera nota vamos a explicar paso a paso cómo se debe instalar R en la máquina. Para la parte de instalación se cubre a fondo en las secciones **Windows** y **Mac** mientras que para **Linux** se presenta el camino basico sin entrar a detalles para las diferentes distribuciones.
+En esta primera nota vamos a explicar paso a paso cómo se debe instalar R en la máquina. Para la parte de instalación se cubre a fondo en las secciones **Windows** y **Mac** mientras que para **Linux** se presenta el camino básico sin entrar a detalles para las diferentes distribuciones.
 
 ### Windows
 
@@ -27,7 +27,7 @@ En esta primera nota vamos a explicar paso a paso cómo se debe instalar R en la
 2. Hacer click en **download R**.
 3. En la lista de mirrors, buscar *https://cran.itam.mx/* y hacer click.
 4. Hacer click en *Download R for macOS*.
-5. Hacer click en el link del archivo de la versión mas receinte de R.
+5. Hacer click en el link del archivo de la versión más reciente de R.
 5. Correr el archivo .pkg y seguir las instrucciones de instalación.
 
 ### Linux
@@ -49,25 +49,26 @@ R fue implementado inicialmente por dos profesores de la universidad de Auckland
 
 [^1]: <https://mran.microsoft.com/documents/what-is-r>
 
-### ¿Que es?
+### ¿Qué es?
 
 R es un lenguaje intérprete.¿Qué significa esto? Esta afirmación se puede dividir en dos partes para analizar individualmente.
 
 1. R es un lenguaje:
-  
-  - Esto significa que el trabajo en R se tiene que hacer a través de una serie de comandos, funciones y scripts con una sintáxis específica.
+ 
+  - Esto significa que el trabajo en R se tiene que hacer a través de una serie de comandos, funciones y scripts con una sintaxis específica.
 
 2. Es un lenguaje intérprete:
  
-  - Una vez que el usuario escribe sus comandos, funciones y scripts, R da una respuesta. Ya sea un resultado, la creación un objeto, una figura gráfica o bien un mensaje de error.
-  
+  - Una vez que el usuario escribe sus comandos, funciones y scripts, R da una respuesta. Ya sea un resultado, la creación de un objeto, una figura gráfica o bien un mensaje de error.
+ 
 ### El concepto Open Source
 
-R es completamente gratis para usar y es mantenido por un grupo de alrededor de 20 desarrolladrores. Además existe una gran comunidad que agrega y construye sobre el R básico (conocido como base R en inglés) a través del desarrollo de paquetes de ayuda para distintos usos. Estos paquetes pueden incluir desde funciones para leer archivos csv hasta métodos estadísticos complejos. Esta gran variedad de paquetes y bibliotecas se distribuye y regula a través de CRAN (*The Comprehensive R Archive Network*) y esta organización de recursos hace que R sea cada día mas poderoso como lenguaje y herramienta.
+R es completamente gratis para usar y es mantenido por un grupo de alrededor de 20 desarrolladores. Además existe una gran comunidad que agrega y construye sobre el R básico (conocido como base R en inglés) a través del desarrollo de paquetes de ayuda para distintos usos. Estos paquetes pueden incluir desde funciones para leer archivos csv hasta métodos estadísticos complejos. Esta gran variedad de paquetes y bibliotecas se distribuye y regula a través de CRAN (*The Comprehensive R Archive Network*) y esta organización de recursos hace que R sea cada día más poderoso como lenguaje y herramienta.
 
 ## Abrir R por primera vez
 
-Ahora que ya esta instalado R en la computadora, podemos hacer una prueba de uso. Localiza donde está guardado el programa y abrelo. Esto abrirá la consila de R dobnde se pueden iniciar a escribir comandos y recibir respuestas. En este ejemplo abrimos la consola y escribimos `print('Hello World')`. La consola nos regresa la imprsión "Hello World"
+Ahora que ya está instalado R en la computadora, podemos hacer una prueba de uso. Localiza donde está guardado el programa y ábrelo. Esto abrirá la consola de R donde se pueden iniciar a escribir comandos y recibir respuestas. En este ejemplo abrimos la consola y escribimos `print('Hello World')`. La consola nos regresa la impresión "Hello World"
+
 
 ![La consola de R con un primer comando](consola R.png){width=50%}
 

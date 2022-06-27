@@ -14,7 +14,9 @@ En esta sección vamos a aprender a definir y usar funciones para facilitar la o
 
 ### Definición de funciones
 
-Las funciones se definen como cualquier objeto en `R`. El nombre del objeto seguido del operador de asignación `<-` pero en este caso después viene la palabra calve `function()`.
+Las funciones se definen como cualquier objeto en `R`. El nombre del objeto seguido del operador de asignación `<-` pero en este caso después viene la palabra clave `function()`.
+
+Dentro de los paréntesis escribimos los arguementos que queremos que reciba nuestra función. Después, entre llaves, se escribe la lógica a seguir de la función.
 
 Veámoslo en acción para entender mejor este concepto.
 
@@ -39,10 +41,10 @@ podemos verificar que funciona como esperamos.
 
 ### if, if else, else e ifelse
  
-Es posible que queramos controlar o limitar cuándo corre nestra función y cuándo no. En nuestro ejemplo no queremos que el segundo número sea cero porque obtendremos `NaN` por respuesta. Utilizaremos la función `if()` para controlar la ejecución.
+Es posible que queramos controlar o limitar cuándo corre nuestra función y cuándo no. En nuestro ejemplo no queremos que el segundo número sea cero porque obtendremos `NaN` por respuesta. Utilizaremos la función `if()` para controlar la ejecución.
 
 ```{r}
-divide_dos_num <- function(num1, num2){ 
+divide_dos_num <- function(num1, num2){
   if(num2 == 0){
     resp <- "No es posible dividir entre cero"
   } else{
@@ -55,13 +57,13 @@ divide_dos_num(10,5)
 divide_dos_num(10,0)
 ```
 
-Si queremos evaluar más de dos conidiones utilizamos `if` en combinación con `else if` y `else` para manejar los casos que no cumplan ninguna de las dos.
-Es importante notar que el orden de las condiciones si se toma en cuenta. Se evaluará la primera que se cumpla 
+Si queremos evaluar más de dos condiciones utilizamos `if` en combinación con `else if` y `else` para manejar los casos que no cumplan ninguna de las dos.
+Es importante notar que el orden de las condiciones si se toma en cuenta. Se evaluará la primera que se cumpla
 
 Veamos un ejemplo:
 
 ```{r}
-divide_dos_num <- function(num1, num2){ 
+divide_dos_num <- function(num1, num2){
   if(num2 == 0){
     resp <- "No es posible dividir entre cero"
   } else if(num1 == 0){
@@ -77,14 +79,14 @@ divide_dos_num(0,0)
 divide_dos_num(0,10)
 ```
 
-Aunque nuestra segunda llamada a la función cumplía ambas condiciones, solamente obtenemos el resultado de que se cumpla la primera condicion.
+Aunque nuestra segunda llamada a la función cumplía ambas condiciones, solamente obtenemos el resultado de que se cumpla la primera condición (ya que R evalúa de arriba hacia abajo y se detiene cuando encuentra una condición verdadera).
 
 Si queremos evaluar más de una condición en la misma expresión, podemos utilizar los operadores `&` y `|` que simbolizan `AND` y `OR` respectivamente.
 
 Aplicamos esto a nuestro ejemplo anterior.
 
 ```{r}
-divide_dos_num <- function(num1, num2 = 2){ 
+divide_dos_num <- function(num1, num2 = 2){
   if(num2 == 0){
     resp <- "No es posible dividir entre cero"
   } else if(num1 == 0 | num2 == 1){ #operador OR |
@@ -100,22 +102,21 @@ divide_dos_num(0,0)
 divide_dos_num(20,1)
 ```
 
-Nótese también que podemos definir valores por *default* para los parámetros. En este caso declaramos que `num2` es igual a 1 por default y por lo tanto, si el usuario no proporciona un valor para ese parámetro, la función puede correr con un valor predeterminado.
+Nótese también que podemos definir valores por *default* para los parámetros. En este caso declaramos que `num2` es igual a 2 por default y por lo tanto, si el usuario no proporciona un valor para ese parámetro, la función puede correr con un valor predeterminado.
 
 ```{r}
 divide_dos_num(10) #Será dividido entre dos porque no proporcionamos otro parámetro
 ```
 
 
-
-Otra forma de obtener un valor apartir de una expresión lógica en `R` es con la función `ifelse`. Esta condensa las funcionalidades de `if` y `else` en una función llamable con 3 parámetros. El primer parámetro es la expresión a evaluar, el segundo el resultado en caso de que la exresión sea `TRUE` y el tercero el resultado en caso de que la expresión sea `FALSE`. 
+Otra forma de controlar la ejecución con una operación lógica en `R` es con la función `ifelse`. Esta condensa las funcionalidades de `if` y `else` en una función llamable con 3 parámetros. El primer parámetro es la expresión a evaluar, el segundo el resultado en caso de que la expresión sea `TRUE` y el tercero el resultado en caso de que la expresión sea `FALSE`.
 
 Esta función es especialmente útil para darle valor a una variable u obtener una respuesta rápida a partir de una condición.
 
 ```{r}
 pos_neg <- function(numero){
   ifelse(numero > 0, 'positivo', 'negativo')
-        #expresion    #resultado T #resultado F
+        #expresión    #resultado T #resultado F
 }
 
 pos_neg(-2)
@@ -124,11 +125,12 @@ pos_neg(3)
 ```
 
 Como se podrán haber dado cuenta, en este ejemplo no estamos evaluando todas las condiciones posibles. Si corremos
+
 ```{r}
 pos_neg(0)
 ```
 nos regresa como resultado que cero es negativo ya que no cumple la condición `x>0`.
-Para estos casos podemos anidar nuestros `ifelse` para que manejen mas de una condición.
+Para estos casos podemos anidar nuestros `ifelse` para que manejen más de una condición.
 
 ```{r}
 pos_neg_cero <- function(numero){
@@ -136,7 +138,7 @@ pos_neg_cero <- function(numero){
 }
 ```
 
-En este caso evaluamos primero si el numero es igual a cero. Si no lo es, regresamos al `ifelse` que habñiamos planteado en la función anterior.
+En este caso evaluamos primero si el número es igual a cero. Si no lo es, regresamos al `ifelse` que habíamos planteado en la función anterior.
 
 ```{r}
 pos_neg_cero(-1)
@@ -146,17 +148,16 @@ pos_neg_cero(0)
 
 ### for y while
 
-En esta sección no analizaremos muy a fondo el funcionamiento o propósito de los ciclos `for` y `while` sino que veremos su sintáxis específica en `R`.
+En esta sección no analizaremos muy a fondo el funcionamiento o propósito de los ciclos `for` y `while` sino que veremos su sintaxis específica en `R`.
 
 el `for` se escribe de la siguiente manera:
 ```{r}
 for(i in c(1,2,3)){# el rango debe ser un vector por el cual pueda correr la i
   print(i)
-} 
+}
 ```
 
-
-Recordemos las maneras de escribir rangos que analizamos en la nota anterior. Ya sea con la sintáxis `inicio:fin`, con el uso de una función generadora como `seq()` o bien proporcionando un vector explícito como el rango buscado.
+Recordemos las maneras de escribir rangos que analizamos en la nota anterior. Ya sea con la sintaxis `inicio:fin`, con el uso de una función generadora como `seq()` o bien proporcionando un vector explícito como el rango buscado.
 
 ```{r}
 #secuencia del 1 al 5
@@ -164,20 +165,19 @@ for(j in seq(5)){
   print(j)
 }
 
-#de dos en dos del 3 al 10
-
+#secuencia de dos en dos del 3 al 10
 for(k in seq(3,10, 2)){
   print(k)
 }
 
-#rangos específicos (no necesitan ser numéricos)
+#rangos específicos (no necesitan ser numéricos). Estos son útiles cuando tratamos con columnas de un dataframe por ejemplo
 
 for(l in c('opcion1', 'opcion2', 'opcion3')){
   print(l)
 }
 ```
 
-Por otro lado el while es muy sencillo e intuituvo. Se escribe la función `while()`y como parámetro se proporciona una expresión que tenga como salida `TRUE` o `FALSE`.
+Por otro lado el while es muy sencillo e intuitivo. Se escribe la función `while()`y como parámetro se proporciona una expresión que tenga como salida `TRUE` o `FALSE`.
 
 Nuevamente, el código a correr se escribe entre llaves (`{}`)
 
@@ -191,11 +191,11 @@ while(i>0){
 }
 ```
 
-Nótese que en muchos casos es necesario inicializar la conidión antes de llamar a la función while.
+Nótese que en muchos casos es necesario inicializar la condición antes de llamar a la función while.
 
 ## Pseudo-aleatorios
 
-`R` tiene muchas maneras de generar números aleatorios (o más puntualmente, pseudo-aleatorios). La forma más básica es con la fucnión `runif()`, la cual selecciona n números aleatorios en un rango dado, todos con la misma probabilidad (es decir, uniforme) de ser seleccionados.
+`R` tiene muchas maneras de generar números aleatorios (o más puntualmente, pseudo-aleatorios). La forma más básica es con la función `runif()`, la cual selecciona n números aleatorios en un rango dado, todos con la misma probabilidad (es decir, uniforme) de ser seleccionados.
 
 Por default, el rango es 0 a 1 pero este puede ser modificado.
 
@@ -209,14 +209,14 @@ runif(5)
 runif(5, 3, 8)
 ```
 
-Si quisieramos convertirla a una función discreta podemos aplicar la función `round()` alrededor de `runif()`
+Si quisiéramos convertirla en una función discreta podemos aplicar la función `round()` alrededor de `runif()`
 ```{r}
 round(runif(5,3,8))
 ```
 
-Nótese que aunque en ambos casos usamos los mismos argumentos en la función, obtubimos resultados diferentes (aparte de que los segundos están redondeados). Si quisiéramos obtener los mismos números cada vez que corremos el experimento podemos recurrir a la función `set.seed()`.
+Nótese que aunque en ambos casos usamos los mismos argumentos en la función, obtuvimos resultados diferentes (aparte de que los segundos están redondeados). Si quisiéramos obtener los mismos números cada vez que corremos el experimento podemos recurrir a la función `set.seed()`.
 
-En su uso más básico, la funcion `set.seed()` recibe un parámetro numérico llamado semilla que hace que las fucniones sean repetibles. No importa cuándo o donde se corra la funcioón pseudo-aleatoria, si tienen la misma semilla antes, obtendremos el mismo resultado.
+En su uso más básico, la función `set.seed()` recibe un parámetro numérico llamado semilla que hace que las funciones sean repetibles. No importa cuándo o dónde se corra la función pseudo-aleatoria, si tienen la misma semilla antes, obtendremos el mismo resultado.
 
 ```{r}
 set.seed(13)
@@ -232,19 +232,22 @@ round(runif(5,100,112))
 
 La consola nos regresa exactamente lo mismo.
 
-Otra función muy común para simulación pseudo-aleatoria es `rbinom()`. Esta recibe 3 parámetros: el numero de ensayos, el numero de objetos y la probabilidad de éxito.
+Otra función muy común para simulación pseudo-aleatoria es `rbinom()`. Esta recibe 3 parámetros: el número de ensayos, el número de objetos y la probabilidad de éxito. (Es decir una simulación binomial)
 
-Para ilustrar esto, imaginémos que se tiene una moneda honesta, vamos a realizar 8 lanzamientos y queremos analizar el número de aguilas que obtenemos. El resultado de esta simulación con `rbinom()` se ve así:
+La sintaxis es: `rbinom(n, tamaño de ensayo, probabilidad)`
+
+Para ilustrar esto, imaginemos que se tiene una moneda honesta, vamos a realizar 8 lanzamientos y queremos analizar el número de águilas que obtenemos. El resultado de esta simulación con `rbinom()` se ve así:
+
 
 ```{r}
-# rbinom(número de lanzamientos, número de monedas, probabilidad de éxito (obtener aguila))
+# rbinom(número de lanzamientos, número de monedas, probabilidad de éxito (obtener águila))
 set.seed(205)
 rbinom(8, 1, 0.5)
 ```
 
-Vemos que en este caso obtubimos 5 aguilas en nuestro experimento.
+Vemos que en este caso obtuvimos 5 águilas en nuestro experimento.
 
-Otra simulación, ahora más compleja, es la siguiente. Un equipo de futból, con 11 jugadores, sabe que la probabilid de que uno de ellos se lesione cada partido es de 5%. Podemos simular el número de lesiones en el calendario de 10 partidos con la función `rbinom()`
+Veamos una simulación más compleja. Un equipo de futból, con 11 jugadores, sabe que la probabilidad de que uno de ellos se lesione cada partido es de 5%. Podemos simular el número de lesiones en el calendario de 10 partidos con la función `rbinom()`
 
 ```{r}
 # rbinom(número de partidos, número de jugadores, probabilidad de lesión)
@@ -260,14 +263,14 @@ set.seed(46)
 sum(rbinom(10, 11, 0.05))
 ```
 
-Por último analizaremos la función `rnorm()`. Esta toma 3 argumentos: el número de experimentos, la media y la desviación estandar para generar números aleatorios con distribución normal (o también conocida como gaussiana). Veamos un ejemplo.
+Por último analizaremos la función `rnorm()`. Esta toma 3 argumentos: el número de experimentos, la media y la desviación estándar para generar números aleatorios con distribución normal (o también conocida como gaussiana). Veamos un ejemplo.
 
 ```{r}
-# 5 números con media cero y desviación estandar 1 
+# 5 números con media cero y desviación estándar 1
 rnorm(5)
 ```
 
-Si revisamos la media y desviación estandar de este experimento podemos confirmar nuestros argumentos iniciales (con cierto margen de error por el tamaño de la muestra).
+Si revisamos la media y desviación estándar de este experimento podemos confirmar nuestros argumentos iniciales (con cierto margen de error por el tamaño de la muestra).
 
 ```{r}
 vector_normal_estandar <- rnorm(300)
@@ -275,16 +278,17 @@ vector_normal_estandar <- rnorm(300)
 # media cercana a cero
 mean(vector_normal_estandar)
 
-#desviación estandar cercana a 1
+#desviación estándar cercana a 1
 sd(vector_normal_estandar)
 ```
 
-Podemos hacer lo mismo utilizando otros parámetros. Por ejemplo obtengamos 8 números con media 5 y desviación estandar 3.
+Podemos hacer lo mismo utilizando otros parámetros. Por ejemplo obtengamos 8 números con media 5 y desviación estándar 3.
 
 ```{r}
 rnorm(8,5,3)
 ```
 
 Como se podrán haber dado cuenta, r + el nombre de alguna distribución nos permite obtener muestras aleatorias de esa distribución con diferentes parámetros. Ejemplos más avanzados incluyen distribución exponencial `rexp()`, distribución Poisson `rpois()`, geométrica `rgeom()`, etc.
+
 
 

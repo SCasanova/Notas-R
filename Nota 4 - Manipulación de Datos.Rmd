@@ -24,13 +24,13 @@ Una forma de obtener columnas individuales es utilizando el operador `$` seguido
 mtcars$mpg
 ```
 
-Y el resultado es el vector que forma la columna `mpg`. Al ser un vector le podemos aplicar todas las tecnicas y operaciones que ta conocemos para los vectores. Por ejemplo, si quisiéramos obtener el dato en la pocisión dos escribimos:
+Y el resultado es el vector que forma la columna `mpg`. Al ser un vector le podemos aplicar todas las técnicas y operaciones que ya conocemos para los vectores. Por ejemplo, si quisiéramos obtener el dato en la posición dos escribimos:
 
 ```{r}
 mtcars$mpg[2]
 ```
 
-Ahora vamos a crear nuestra propia columna. Para hacer esto, usamos la notación del operador `$` pero ahora con un nombre de columna que no exista. Después usamos el operador de asignación `<-` para asignarle algo a dicha columna.
+Ahora vamos a crear nuestra propia columna. Para hacer esto, usamos la notación del operador `$` pero ahora con un nombre de columna que no exista. Después usamos el operador de asignación `<-` para asignar algo a dicha columna.
 
 ```{r}
 mtcars$like <- rep(0, nrow(mtcars))
@@ -57,60 +57,62 @@ mtcars$like[21] <- 1
 mtcars$like
 ```
 
-De la misma forma, al ser un vector, podemos usar todas las técnicas y operaciones que conocemos que fincionan para vectores. Por ejemplo:
+De la misma forma, al ser un vector, podemos usar todas las técnicas y operaciones que conocemos que funcionan para vectores. Por ejemplo:
 
 ```{r}
 sum(mtcars$like)
 max(mtcars$cyl)
 ```
 
-La primera nos regresa la suma de la columna `like`. Es facil ver que nos regresará 6 ya que en la sección anterior le asignamos 6 `1` en diferentes pocisiones. La segunda nos regresa el valor máximo de la columna `cyl`. 
+La primera nos regresa la suma de la columna `like`. Es fácil ver que nos regresará 6 ya que en la sección anterior le asignamos 6 `1` en diferentes posiciones. La segunda nos regresa el valor máximo de la columna `cyl`.
 
 Ahora vamos a analizar cómo podemos utilizar pruebas lógicas para obtener valores de un arreglo. Si corremos la expresión:
 
 ```{r}
 mtcars$cyl >=8
 ```
-vemos que nos regresa un vector booleano con valores `TRUE` o `FALSE` dependiendo si los elementos del vector escogido `mtcars$cyl` cumplen la condición. Ahora loq eu podemos hacer es pasar este vector lógico como argumento dentro de los corchetes del arreglo. Esto nos dará las filas que tengan `TRUE` en nuestra prueba lógica.
+Vemos que nos regresa un vector booleano con valores `TRUE` o `FALSE` dependiendo si los elementos del vector escogido `mtcars$cyl` cumplen la condición. Ahora lo que podemos hacer es pasar este vector lógico como argumento dentro de los corchetes del arreglo. Esto nos dará las filas que tengan `TRUE` en nuestra prueba lógica.
 
 ```{r}
 mtcars[mtcars$cyl >=8, ]
 ```
 
-Ponemos la prueba lógica seguida de una coma porque queremos obtener los renglones que cumplan esta condición, como lo vimos en la sección de arreglos de la nota anterior. 
+Ponemos la prueba lógica seguida de una coma porque queremos obtener los renglones que cumplan esta condición, como lo vimos en la sección de arreglos de la nota anterior.
 
-Si quisieramos que nos regrese estas filas pero sólamente una selección de columnas, podemos usar un vector con los índices (o los nombres) de las columnas deseadas después de la coma.
+Si quisiéramos que nos regrese estas filas pero sólamente una selección de columnas, podemos usar un vector con los índices (o los nombres) de las columnas deseadas después de la coma.
 
-En estos próximos ejemplos agregaremos otra condición para limitar los reultados. Ahora buscamos todas las filas que cumplan que `cyl` sea mayor o igual a 8 y que `disp` sea mayor a 400.
+En estos próximos ejemplos agregaremos otra condición para limitar los resultados. Ahora buscamos todas las filas que cumplan que `cyl` sea mayor o igual a 8 y que `disp` sea mayor a 400.
 
 ```{r}
-#Un vector de indices columnas
+#Un vector de índices columnas
 mtcars[mtcars$cyl >=8 & mtcars$disp > 400, c(1,4,5)]
 
-#Un rango de indices columnas
+#Un rango de índices columnas
 mtcars[mtcars$cyl >=8 & mtcars$disp > 400, 2:5]
 
-#Un vecotr con nombres de columnas
-mtcars[mtcars$cyl >=8 & mtcars$disp > 400, c('mpg','cyl', 'disp')] 
+#Un vector con nombres de columnas
+mtcars[mtcars$cyl >=8 & mtcars$disp > 400, c('mpg','cyl', 'disp')]
 ```
-Si sólo bucamos una sola columna, también se puede utilizar el operador `$` después de los corchetes para indicar que queremos que nos regrese esa columna. Nótese que aún es necesario escribir la coma.
+Si sólo buscamos una sola columna, también se puede utilizar el operador `$` después de los corchetes para indicar que queremos que nos regrese esa columna. Nótese que aún es necesario escribir la coma.
 
 ```{r}
 mtcars[mtcars$cyl >=8 & mtcars$disp > 400,]$mpg
 ```
+
 De igual manera podemos notar que cuando seleccionamos más de una columna la consola nos regresa un arreglo, mientras que cuando sólo seleccionamos una columna (ya sea con índice, nombre o el operador `$`) la consola regresa un vector.
 
-Esto es crucial ya que nos permite aplicar todas las operaciones y manipulaciones de vectores que ya conocemos. 
+Esto es crucial ya que nos permite aplicar todas las operaciones y manipulaciones de vectores que ya conocemos.
 
-
-Esta sintáxis no solo sirve para obtener los datos a través de la consola. Naturalmente también podemos asignar estos resultados a una nueva variable. Vamos a crear un *subset* de `mtcars` que sólo incluya las filas con `cyl` igual a 4.
+Esta sintaxis no sólo sirve para obtener los datos a través de la consola. Naturalmente también podemos asignar estos resultados a una nueva variable. Vamos a crear un *subset* de `mtcars` que sólo incluya las filas con `cyl` igual a 4.
 
 ```{r}
 cars_4_cyl <- mtcars[mtcars$cyl == 4, ]
 head(cars_4_cyl)
 ```
 
-Nótese que si no le asignaramos nuestro *subset* a la variable `cars_4_cyl`, el arreglo original no se vería modificado. 
+Nótese que ninguna de las operaciones anteriores había modificado el arreglo `mtcars`. Hasta que no asignemos nada, estas solo son operaciones de salida en la consola.
+
+---
 
 Ahora usemos lo que sabemos sobre crear columnas y números pseudo-aleatorios para crear una columna `tank` que indique el tamaño del tanque de gasolina de los coches.
 
@@ -120,14 +122,14 @@ cars_4_cyl$tank <- round(rnorm(nrow(cars_4_cyl), 18, 5))
 cars_4_cyl
 ```
 
-Estamos creando la columna `tank` con números enteros (gracias a `round()`) con media 20 y desviación estandar 8 (con la función `rnorm()`). Para el cantidad de números aleatorios a generar utilizamos `nrow()` para que la función nos regrese los suficientes para todas las filas de nuestro arreglo.
+Estamos creando la columna `tank` con números enteros (gracias a `round()`) con media 20 y desviación estándar 8 (con la función `rnorm()`). Para la cantidad de números aleatorios a generar utilizamos `nrow()` para que la función nos regrese los suficientes para todas las filas de nuestro arreglo.
 
-Veamosel resumen nuestra nueva columna.
+Veamos el resumen de nuestra nueva columna.
 ```{r}
 summary(cars_4_cyl$tank)
 ```
 
-Las columnas de un arreglo son vectores del mismo tamaño por lo que podemos hacer operaciones entrada-a-entrada entre ellos. Si queremos calcular la distancia total de cada coche nos absta con multiplicar la columna `mpg` (*miles per gallon*) por nuestra nueva columna `tank` en galones.
+Las columnas de un arreglo son vectores del mismo tamaño por lo que podemos hacer operaciones entrada-a-entrada entre ellos. Si queremos calcular la distancia total de cada coche nos basta con multiplicar la columna `mpg` (*miles per gallon*) por nuestra nueva columna `tank` en galones.
 
 ```{r}
 cars_4_cyl$distancia_maxima <- cars_4_cyl$mpg*cars_4_cyl$tank
@@ -149,7 +151,7 @@ cars_4_cyl$marca_modelo <- rownames(cars_4_cyl)
 head(cars_4_cyl)
 ```
 
-Otra forma de ver un arreglo competo es con la función `View()`. Esta en vez de regresar algo a la consola, abre el arreglo en otra pestaña donde lo podemos filtrar y buscar datos individuales a manera de interfaz gráfica.
+Otra forma de ver un arreglo completo es con la función `View()`. En vez de regresar algo a la consola, abre el arreglo en otra pestaña donde lo podemos filtrar y buscar datos individuales a manera de interfaz gráfica.
 
 ```{r}
 View(cars_4_cyl)
@@ -157,11 +159,11 @@ View(cars_4_cyl)
 
 Podemos ver que nuestra nueva columna de marca y modelo está ya incluida.
 
-### Maipulación de texto
+### Manipulación de texto
 
 Veremos ahora una serie de funciones para manipular texto (o vectores de texto). Estas son especialmente útiles para la limpieza de columnas de datos.
 
-La primera que analizaremos es `grepl()`. Esta sirve para buscar un patrón de caracteres en un vector. Usemos la columna de marca y modelo como vector ejemplo. La sintáxis es `gsub(patrón, vector)` 
+La primera que analizaremos es `grepl()`. Esta sirve para buscar un patrón de caracteres en un vector. Usemos la columna de marca y modelo como vector ejemplo. La sintaxis es `gsub(patrón, vector)`
 
 ```{r}
 grepl('Fiat', cars_4_cyl$marca_modelo)
@@ -175,16 +177,15 @@ cars_4_cyl[grepl('Fiat', cars_4_cyl$marca_modelo), ]
 
 Ahora vemos que la función nos es útil para buscar datos específicos dentro de una cadena en un arreglo, no solo el dato completo de la columna (Esto se lograría con arreglo[dato == buscado]).
 
-También es necesario en muchas ocasiones remplazar un patrón por otro en un vector de cadenas. Para esto usaos la función `gsub()`. Funciona de manera similar a `grepl()` pero ahora también recibe el parámetro `remplazo`. Entonces la sintáxis queda `gsub(patrón, remplazo, vector)`.
+También es necesario en muchas ocasiones reemplazar un patrón por otro en un vector de cadenas. Para esto usamos la función `gsub()`. Funciona de manera similar a `grepl()` pero ahora también recibe el parámetro `reemplazo`. Entonces la sintaxis queda `gsub(patrón, reemplazo, vector)`.
 
 ```{r}
 gsub('Fiat', 'Mazda',  cars_4_cyl$marca_modelo)
 ```
 
+En este caso la salida es un vector de cadenas en lugar de uno booleano. Este vector es la versión modificada de nuestro vector original. (Notemos que en realidad el vector original no ha sido modificado, este vector respuesta es aparte).
 
-En este caso la salida es un vector de cadenas en lugar de uno booleano. Este vector es la versión modificada de nuestro vector original.
-
-En muchos casos es necesario separar una cadena (más adelante lo veremos para columnas) en dos o mas secciones. Para eso podemos usar la función `strsplit()`. Como lo indica su nombre, separa cadenas. Se usa la siguiente sintáxis: `strsplit(cadena, separador)`, donde el separador es un caracter que indique una separación.
+En muchos casos es necesario separar una cadena (más adelante lo veremos para columnas) en dos o más secciones. Para eso podemos usar la función `strsplit()`. Como lo indica su nombre, separa cadenas. Se usa la siguiente sintaxis: `strsplit(cadena, separador)`, donde el separador es un caracter que indique una separación.
 
 ```{r}
 strsplit("palabra1 palabra2", " ")
@@ -198,7 +199,7 @@ strsplit(c("palabra1 palabra2", "palabra3 palabra4"), " ")
 
 Este ejemplo ilustra por qué es necesario que el resultado sea una lista. Sin embargo, esto presenta otros problemas. Supongamos que tenemos una columna que incluye nombres y apellidos y la queremos separar en una columna sólo de nombres y otra solo de apellidos. ¿Cómo logramos esto?
 
-Probemos varias opciones para obtener solo el apellido del siguiente vector.
+Probemos varias opciones para obtener **solo el apellido** del siguiente vector.
 
 ```{r}
 nombre_apellidos <- c("Ana Perez", "Ernesto Barrios", "Santiago Casanova")
@@ -206,14 +207,14 @@ nombre_apellidos <- c("Ana Perez", "Ernesto Barrios", "Santiago Casanova")
 # strsplit original
 strsplit(nombre_apellidos, " ")
 
-# tomamos la segunda pocision
+# tomamos la segunda posición
 strsplit(nombre_apellidos, " ")[2]
 
 # tomamos el segundo elemento de la lista
 strsplit(nombre_apellidos, " ")[[2]]
 
 ```
-Ninguna de estas opciones cumple lo que queremos. No hay manera de obtener solo el segundo resultado sólo con indices por lo que tendremos que explorar mas opciones. Cómo primer instinto podemos pensar en usar un `for()` para lograr esto.
+Ninguna de estas opciones cumple lo que queremos. No hay manera de obtener solo el segundo resultado sólo con índices por lo que tendremos que explorar más opciones. Cómo primer instinto podemos pensar en usar un `for()` para lograr esto.
 
 ```{r}
 # Declaramos un vector vacío
@@ -224,13 +225,13 @@ for(i in 1:length(nombre_apellidos)){
 }
 ```
 
-En este ejemplo estamos tomando el elemento **i** del vector (desde 1 hasta el largo del vector), separandolo por el espacio y, una vez separado, tomando el primer elemento de la lista resultante (`[[1]]`). Ya que tenemos acceso al vector tomamos el segundo elemento. Ese elemento es asignado a la pocisión **i** de nuestro vector apellidos.
+En este ejemplo estamos tomando el elemento **i** del vector (desde 1 hasta el largo del vector), separándolo por el espacio y, una vez separado, tomando el primer elemento de la lista resultante (`[[1]]`). Ya que tenemos acceso al vector tomamos el segundo elemento. Ese elemento es asignado a la posición **i** de nuestro vector apellidos.
 
 Mientras que sí es una solución viable no es muy eficiente y se presta a errores. En esta sección vamos a aprender a vectorizar operaciones.
 
 ## Vectorización de Funciones
 
-Para resolver el problema anterior priemro tenemos que definir una función que haga lo que queremos. Ya analizamos el problema en el paso anterior entonces lo podemos aplicar de manera casi idéntica. Con la única excepción de que ahora lo pensamos como si la función recibiera un solo elemento a la vez.
+Para resolver el problema anterior primero tenemos que definir una función que haga lo que queremos. Ya analizamos el problema en el paso anterior entonces lo podemos aplicar de manera casi idéntica. Con la única excepción de que ahora lo pensamos como si la función recibiera un solo elemento a la vez.
 
 ```{r}
 extrae_apellido <- function(nombre_completo){
@@ -244,17 +245,17 @@ Verificamos que funcione como queremos:
 extrae_apellido("Enrique Juarez")
 ```
 
-Ahora utilizaremos la familia de funciones `apply()` para aplicar esta función a todos los elementos de un vector. Primero analizaremos `sapply()` y `lapply()`. La sintáxis para estas es: `*apply(vector, función)`.
+Ahora utilizaremos la familia de funciones `apply()` para aplicar esta función a todos los elementos de un vector. Primero analizaremos `sapply()` y `lapply()`. La sintaxis para estas es: `*apply(vector, función)`.
 
 ```{r}
-sapply(nombre_apellidos, extrae_apellido) #La función se escribe sin parentesis
+sapply(nombre_apellidos, extrae_apellido) #La función se escribe sin paréntesis
 
 lapply(nombre_apellidos, extrae_apellido)
 ```
 
-La función `sapply()` nos regresa un vector con los resultados que además tiene nombres y estos son los elementos del vector original. Por otro lado, `lapply()` regresa una lista donde cada resultado está en su propio vector. 
+La función `sapply()` nos regresa un vector con los resultados que además tiene nombres y estos son los elementos del vector original. Por otro lado, `lapply()` regresa una lista donde cada resultado está en su propio vector.
 
-Declaremos ahora una función más compleja y por lo tanto más util que la que tenemos actualmente. Esta nos va a permitir indicarle qué caracter usar para el separador y también qué parte del nombre completo queremos extraer. Nótese que vamos a establecer valores predeterminados para estos parámetros.
+Declaremos ahora una función más compleja y por lo tanto más útil que la que tenemos actualmente. Esta nos va a permitir indicarle qué caracter usar para el separador y también qué parte del nombre completo queremos extraer. Nótese que vamos a establecer valores predeterminados para estos parámetros.
 
 ```{r}
 extrae_de_nombre <- function(nombre_completo, separador = " ", posicion = 2){
@@ -266,20 +267,19 @@ extrae_de_nombre("Ana López")
 # Si los especificamos
 extrae_de_nombre("Ana López", " ", 2)
 # Extraer el nombre
-extrae_de_nombre("Ana López", posicion =2)
+extrae_de_nombre("Ana López", posicion =1)
 # Con diferente separador
 extrae_de_nombre("Ana-López", separador = "-")
 
 ```
 
-Para usar parámetros con las funciones `lapply()` o `sapply()` se usa la siguiente sintáxis: `*apply(vector, función, parametro = valor)`.
+Para usar parámetros con las funciones `lapply()` o `sapply()` se usa la siguiente sintaxis: `*apply(vector, función, parámetro = valor)`.
 
 ```{r}
 sapply(nombre_apellidos, extrae_de_nombre, posicion = 1)
 ```
 
-
-Sin embargo estas funciones solo reciben un parámetro por función. En este caso funciona porque nuestra función tiene valores *default* para los parametros que no especificamos pero si queremos declarar todos es necesario utilizar la función `mapply()`. Funciona igual que las demás funciones de la familia apply pero en este caso recibe parámetros infinitos y por lo tanto cambia la sintáxis: `mapply(función, arg1, arg2, ... , vector)
+Sin embargo estas funciones solo reciben un parámetro por función. En este caso funciona porque nuestra función tiene valores *default* para los argumentos que no especificamos. Sin embargho, si queremos declarar todos individualmente, es necesario utilizar la función `mapply()`. Funciona igual que las demás funciones de la familia apply pero en este caso recibe argumentos infinitos y por lo tanto cambia la sintaxis: `mapply(función, arg1, arg2, ... , vector)
 
 ```{r}
 nombres2 <- c("Ernesto-J-Barrios", "Santiago-J-Casanova", "Ana-P-Lopez")
@@ -288,4 +288,6 @@ mapply(extrae_de_nombre, separador = "-", posicion = 3, nombres2)
 ```
 
 Esto concluye la sección de vectorización de funciones.
+
+
 
